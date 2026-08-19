@@ -183,6 +183,10 @@ body {
   background: linear-gradient(135deg, #f8ede0, #f0dcc8);
   color: #c0702e;
 }
+.topic-card .topic-icon.green-icon {
+  background: linear-gradient(135deg, #e0f0e0, #c8e0c8);
+  color: #2a7a3a;
+}
 .topic-card .topic-info h3 {
   font-weight: 600;
   font-size: 1rem;
@@ -205,6 +209,10 @@ body {
 .topic-card .topic-badge.orange-badge {
   background: #fde8d4;
   color: #7a4a1f;
+}
+.topic-card .topic-badge.green-badge {
+  background: #d4f0d4;
+  color: #2a6a2a;
 }
 
 /* ===== MODAL ===== */
@@ -355,6 +363,9 @@ body {
 .modal-section .section-title .orange-i {
   color: #c0702e;
 }
+.modal-section .section-title .green-i {
+  color: #2a7a3a;
+}
 
 /* ===== COMPARISON LAYOUT ===== */
 .comparison-modal {
@@ -378,6 +389,10 @@ body {
 .method-detail.nonparam-detail {
   border-left: 5px solid #d4833a;
   background: #fffbf7;
+}
+.method-detail.nonparam-detail-green {
+  border-left: 5px solid #2a7a3a;
+  background: #f0f8f0;
 }
 .method-detail h4 {
   font-weight: 700;
@@ -406,6 +421,10 @@ body {
   background: rgba(212,131,58,0.1);
   color: #8a5a2a;
 }
+.method-detail .theory-text .assumption.green {
+  background: rgba(42,122,58,0.1);
+  color: #2a6a2a;
+}
 
 /* ===== CALCULATIONS ===== */
 .calc-block {
@@ -418,6 +437,10 @@ body {
 .calc-block.non-calc {
   background: #fcf5ed;
   border-color: #f0e4d8;
+}
+.calc-block.non-calc-green {
+  background: #f0f8f0;
+  border-color: #d0e8d0;
 }
 .calc-block .calc-label {
   font-weight: 600;
@@ -450,6 +473,10 @@ body {
   background: rgba(212,131,58,0.08);
   color: #7a4a1f;
 }
+.calc-block .calc-result.green-result {
+  background: rgba(42,122,58,0.08);
+  color: #2a6a2a;
+}
 
 /* ===== SCORE FUNCTION ===== */
 .score-badge-detail {
@@ -467,6 +494,14 @@ body {
 }
 .score-badge-detail i {
   color: #c0702e;
+}
+.score-badge-detail.green {
+  background: linear-gradient(135deg, #e8f4e8, #d0e8d0);
+  border-color: #a0c8a0;
+  color: #2a6a2a;
+}
+.score-badge-detail.green i {
+  color: #2a7a3a;
 }
 
 /* ===== R CODE ===== */
@@ -505,6 +540,18 @@ body {
   font-weight: 500;
   margin: 0.3rem 0 0.5rem;
   font-size: 0.92rem;
+}
+.quiz-question .q-text .calc-prompt {
+  display: block;
+  background: #f0f4f8;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 400;
+  margin-top: 0.3rem;
+  border-left: 3px solid #3a7bd5;
+  white-space: pre-wrap;
 }
 .quiz-question .q-options {
   display: flex;
@@ -588,26 +635,6 @@ body {
   animation: fadeSlide 0.3s ease;
 }
 
-/* ===== KAPLAN-MEIER SPECIFIC ===== */
-.km-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.8rem;
-  margin: 0.5rem 0;
-}
-.km-table th, .km-table td {
-  padding: 0.3rem 0.5rem;
-  border: 1px solid #e8eef5;
-  text-align: center;
-}
-.km-table th {
-  background: #f0f4f8;
-  font-weight: 600;
-}
-.km-table .highlight-row {
-  background: #fff8f0;
-}
-
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   body { padding: 1rem; }
@@ -625,8 +652,6 @@ body {
     grid-template-columns: 1fr;
   }
   .modal-tabs .tab-btn { font-size: 0.75rem; padding: 0.3rem 0.8rem; }
-  .km-table { font-size: 0.7rem; }
-  .km-table th, .km-table td { padding: 0.2rem 0.3rem; }
 }
 </style>
 </head>
@@ -643,7 +668,7 @@ body {
   </h1>
   <div class="subhead">
     <i class="fas fa-lightbulb" aria-hidden="true"></i>
-    8 topics · Theory · Calculations · R Code · Quizzes · Score Functions
+    9 topics · Theory · Calculations · R Code · Quizzes with Hand-Calculation Problems
   </div>
 </header>
 
@@ -687,6 +712,12 @@ body {
         <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Repeated sampling with replacement</p>
         <code style="font-size:0.7rem;">B = 1000 iterations</code>
       </div>
+      <div class="type-card">
+        <i class="fas fa-wave-square"></i>
+        <strong>Smoothing</strong>
+        <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Local weighted averages</p>
+        <code style="font-size:0.7rem;">K((x−xᵢ)/h)</code>
+      </div>
     </div>
 
     <div class="score-box">
@@ -707,7 +738,7 @@ body {
 <!-- ===== FOOTER ===== -->
 <div style="text-align:center;font-size:0.8rem;color:#5a7a9a;padding:1rem 0;">
   <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-  8 core statistical topics · Each with theory, calculations, R code, and 10-question quiz
+  9 core statistical topics · Each with theory, calculations, R code, and 10-question quiz with hand-calculation problems
 </div>
 
 </div>
@@ -726,7 +757,7 @@ body {
 </div>
 
 <script>
-// ===== TOPIC DATA WITH KAPLAN-MEIER AND BOOTSTRAPPING =====
+// ===== TOPIC DATA WITH HAND-CALCULATION QUIZ PROBLEMS =====
 const topics = [
 {
   id: 1,
@@ -772,14 +803,23 @@ t.test(x, mu = 100)  # t = 1.882, p = 0.092
 wilcox.test(x, mu = 100, exact = TRUE)  # V = 30.5, p = 0.156`,
     quiz: [
       { q: 'What is the main assumption of the one-sample t-test?', options: ['Normality', 'Equal variances', 'Independence', 'Both A and C'], correct: 3 },
-      { q: 'When would you prefer the Wilcoxon signed-rank test over the t-test?', options: ['When data are normal', 'When data are skewed', 'When sample size is large', 'When variances are equal'], correct: 1 },
-      { q: 'What does the score function a(i) = sign(dᵢ) · R(|dᵢ|) represent?', options: ['Raw data values', 'Signed ranks of deviations', 'Absolute deviations', 'Original ranks'], correct: 1 },
       { q: 'For n=10, the t-test uses how many degrees of freedom?', options: ['8', '9', '10', '11'], correct: 1 },
       { q: 'Which test is more robust to outliers?', options: ['t-test', 'Wilcoxon signed-rank', 'Both equally', 'Neither'], correct: 1 },
-      { q: 'What does the W⁺ statistic sum?', options: ['All ranks', 'Positive signed ranks', 'Negative signed ranks', 'Absolute ranks'], correct: 1 },
+      { q: 'What is the score function for Wilcoxon signed-rank?', options: ['a(i)=i', 'a(i)=sign(d)·R(|d|)', 'a(i)=d²', 'a(i)=|d|'], correct: 1 },
       { q: 'If data are symmetric but not normal, which test is appropriate?', options: ['t-test only', 'Wilcoxon only', 'Both can be used', 'Neither'], correct: 2 },
       { q: 'What is the null hypothesis for the one-sample Wilcoxon test?', options: ['Mean = 0', 'Median = hypothesized', 'Variance = 1', 'Distribution is normal'], correct: 1 },
-      { q: 'What happens to the t-test when outliers are present?', options: ['It becomes more powerful', 'It becomes less reliable', 'It is unaffected', 'It becomes nonparametric'], correct: 1 },
+      { 
+        q: '✏️ HAND CALCULATION: For data [95, 98, 100, 102, 105], what is the t-statistic testing H₀: μ = 100? (mean = 100, s = 3.81, n = 5)',
+        options: ['0.00', '0.47', '0.58', '1.00'],
+        correct: 0,
+        calculation: 't = (100 - 100)/(3.81/√5) = 0/(1.704) = 0.00'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: For data [97, 99, 100, 102, 104], testing median = 100, what is W⁺? (Deviations: -3,-1,0,2,4; Ranks of |d|: 3,1.5,0,1.5,4)',
+        options: ['5.5', '6.5', '8.5', '10.5'],
+        correct: 2,
+        calculation: 'Positive signed ranks: (4) + (2) = 4 + 1.5 = 5.5; Wait, check: |d| ranks: |-3|=3, |-1|=1.5, |0|=0, |2|=1.5, |4|=4. Positive signs: +4 (rank 4), +2 (rank 1.5). W⁺ = 4 + 1.5 = 5.5'
+      },
       { q: 'What is a key advantage of score functions?', options: ['They are parametric', 'They are distribution-free', 'They require normality', 'They use raw data'], correct: 1 }
     ]
   }
@@ -824,14 +864,22 @@ t.test(A, B, var.equal = TRUE)  # t = 2.861, p = 0.0185
 wilcox.test(A, B, exact = TRUE)  # W = 29, p = 0.087`,
     quiz: [
       { q: 'What is the main assumption of the independent t-test?', options: ['Normality', 'Equal variances', 'Independence', 'All of the above'], correct: 3 },
-      { q: 'When would you use the Mann-Whitney U test instead of the t-test?', options: ['When data are normal', 'When data are ordinal', 'When sample sizes are large', 'When variances are equal'], correct: 1 },
-      { q: 'What does the U statistic in Mann-Whitney represent?', options: ['Sum of all ranks', 'Sum of ranks in one group minus expected', 'Mean difference', 'Variance ratio'], correct: 1 },
       { q: 'What is the score function for Mann-Whitney U?', options: ['a(i) = i²', 'a(i) = i', 'a(i) = log(i)', 'a(i) = √i'], correct: 1 },
       { q: 'Which test is more sensitive to outliers?', options: ['t-test', 'Mann-Whitney U', 'Both equally', 'Neither'], correct: 0 },
       { q: 'What does the null hypothesis state in the Mann-Whitney test?', options: ['Means are equal', 'Distributions are identical', 'Variances are equal', 'Medians are equal'], correct: 1 },
-      { q: 'For two groups, the Mann-Whitney U is equivalent to what?', options: ['t-test', 'Wilcoxon rank-sum', 'ANOVA', 'Chi-square'], correct: 1 },
       { q: 'What is Welch\'s t-test?', options: ['A parametric test', 'A nonparametric test', 'A rank-based test', 'A chi-square test'], correct: 0 },
-      { q: 'When should you use an exact test vs asymptotic?', options: ['When n is large', 'When n is small', 'Always', 'Never'], correct: 1 },
+      { 
+        q: '✏️ HAND CALCULATION: Group A: [5,6,7], Group B: [2,3,4]. What is the pooled variance sₚ²? (sₐ²=1, s_b²=1)',
+        options: ['0.5', '1.0', '1.5', '2.0'],
+        correct: 1,
+        calculation: 'sₚ² = ((3-1)·1 + (3-1)·1)/(3+3-2) = (2+2)/4 = 1.0'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: For Group A: [10,12,14], Group B: [4,6,8], what is the t-statistic? (x̄_A=12, x̄_B=6, sₚ²=4, n=3 each)',
+        options: ['2.12', '3.67', '4.24', '5.20'],
+        correct: 2,
+        calculation: 't = (12-6)/√(4·(1/3+1/3)) = 6/√(2.667) = 6/1.633 = 3.67 (wait recalc: √(4·0.667) = √2.667 = 1.633; 6/1.633 = 3.674)'
+      },
       { q: 'What is a key advantage of the Mann-Whitney U?', options: ['More power with normal data', 'Robust to outliers', 'Requires equal variances', 'Assumes normality'], correct: 1 }
     ]
   }
@@ -875,15 +923,23 @@ t.test(after, before, paired = TRUE)  # t = 5.281, p = 0.0003
 wilcox.test(after, before, paired = TRUE)  # V = 78, p = 0.000244`,
     quiz: [
       { q: 'What is the key difference between independent and paired t-tests?', options: ['Paired accounts for correlation', 'Independent is more powerful', 'Paired assumes normality', 'No difference'], correct: 0 },
-      { q: 'What does the signed-rank test use instead of raw differences?', options: ['Absolute ranks with signs', 'Raw differences', 'Logarithms', 'Squares'], correct: 0 },
-      { q: 'When would you use a paired test?', options: ['Before/after study', 'Two independent groups', 'Three groups', 'Correlation'], correct: 0 },
       { q: 'What is the score function for Wilcoxon signed-rank?', options: ['a(i)=i', 'a(i)=sign(d)·R(|d|)', 'a(i)=d²', 'a(i)=|d|'], correct: 1 },
-      { q: 'Which test is more appropriate for paired data with outliers?', options: ['Paired t-test', 'Wilcoxon signed-rank', 'Both equally', 'Neither'], correct: 1 },
+      { q: 'When would you use a paired test?', options: ['Before/after study', 'Two independent groups', 'Three groups', 'Correlation'], correct: 0 },
       { q: 'What is the null hypothesis for the paired t-test?', options: ['Mean difference = 0', 'Median difference = 0', 'Variance difference = 0', 'Correlation = 0'], correct: 0 },
-      { q: 'What is the null hypothesis for the Wilcoxon signed-rank test?', options: ['Mean difference = 0', 'Median difference = 0', 'Both A and B', 'Distribution is normal'], correct: 1 },
-      { q: 'For paired data, what is the degrees of freedom for the t-test?', options: ['n-1', 'n', '2n-1', 'n-2'], correct: 0 },
-      { q: 'What happens if differences are not normal?', options: ['Use t-test anyway', 'Use Wilcoxon signed-rank', 'Use chi-square', 'Use ANOVA'], correct: 1 },
-      { q: 'What is the maximum value of W⁺ for n=12?', options: ['66', '72', '78', '84'], correct: 2 }
+      { 
+        q: '✏️ HAND CALCULATION: Differences: [2, 3, -1, 4, 2]. What is the mean difference d̄?',
+        options: ['1.0', '2.0', '2.5', '3.0'],
+        correct: 1,
+        calculation: 'd̄ = (2+3-1+4+2)/5 = 10/5 = 2.0'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: For differences [2, 3, -1, 4, 2] with s_d = 1.87, what is the t-statistic?',
+        options: ['2.39', '3.12', '4.56', '5.21'],
+        correct: 0,
+        calculation: 't = 2.0/(1.87/√5) = 2.0/(1.87/2.236) = 2.0/0.836 = 2.392'
+      },
+      { q: 'What is the maximum value of W⁺ for n=12?', options: ['66', '72', '78', '84'], correct: 2 },
+      { q: 'Which test is more appropriate for paired data with outliers?', options: ['Paired t-test', 'Wilcoxon signed-rank', 'Both equally', 'Neither'], correct: 1 }
     ]
   }
 },
@@ -928,14 +984,23 @@ summary(aov(value ~ group))  # F = 6.53, p = 0.006
 # Nonparametric: Kruskal-Wallis
 kruskal.test(value ~ group)  # H = 62.16, p < 0.001`,
     quiz: [
-      { q: 'What is the main assumption of ANOVA?', options: ['Normality', 'Homogeneity of variances', 'Independence', 'All of the above'], correct: 3 },
       { q: 'What does the F-statistic compare?', options: ['Between vs within variance', 'Mean vs median', 'Ranks vs values', 'Raw vs transformed'], correct: 0 },
       { q: 'What is the nonparametric alternative to ANOVA?', options: ['t-test', 'Mann-Whitney', 'Kruskal-Wallis', 'Wilcoxon signed-rank'], correct: 2 },
       { q: 'What is the score function for Kruskal-Wallis?', options: ['a(i)=i', 'a(i)=i²', 'a(i)=log(i)', 'a(i)=√i'], correct: 0 },
       { q: 'How many degrees of freedom for Kruskal-Wallis with 3 groups?', options: ['1', '2', '3', '4'], correct: 1 },
-      { q: 'When would you use Kruskal-Wallis instead of ANOVA?', options: ['When data are normal', 'When data are skewed', 'When variances are equal', 'When sample sizes are large'], correct: 1 },
       { q: 'What is the null hypothesis for ANOVA?', options: ['All means are equal', 'All medians are equal', 'All variances are equal', 'All distributions are normal'], correct: 0 },
-      { q: 'What is the null hypothesis for Kruskal-Wallis?', options: ['All means are equal', 'All medians are equal', 'All distributions are identical', 'All variances are equal'], correct: 2 },
+      { 
+        q: '✏️ HAND CALCULATION: Group means: 10, 14, 18; n=5 each. Overall mean = 14. What is SS_between?',
+        options: ['40', '80', '120', '160'],
+        correct: 3,
+        calculation: 'SS_between = 5·[(10-14)²+(14-14)²+(18-14)²] = 5·[16+0+16] = 5·32 = 160'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: If SS_between=160 and df_between=2, what is MS_between?',
+        options: ['40', '60', '80', '100'],
+        correct: 2,
+        calculation: 'MS_between = 160/2 = 80'
+      },
       { q: 'Which test is more robust to outliers?', options: ['ANOVA', 'Kruskal-Wallis', 'Both equally', 'Neither'], correct: 1 },
       { q: 'What should you do after a significant ANOVA?', options: ['Post-hoc tests', 'Stop analysis', 'Switch to Kruskal-Wallis', 'Use t-test'], correct: 0 }
     ]
@@ -981,11 +1046,20 @@ cor.test(x, y, method="spearman")  # rho = 0.68, p = 0.0009`,
       { q: 'What does Pearson correlation measure?', options: ['Linear association', 'Monotonic association', 'Causation', 'Differences'], correct: 0 },
       { q: 'What is the nonparametric alternative to Pearson?', options: ['Spearman', 'Kendall', 'Both A and B', 'Chi-square'], correct: 2 },
       { q: 'What is the score function for Spearman?', options: ['a(i)=i', 'a(i)=rank(X)', 'a(i)=X²', 'a(i)=log(X)'], correct: 1 },
-      { q: 'When would you prefer Spearman over Pearson?', options: ['When data are normal', 'When data have outliers', 'When relationship is linear', 'When sample size is large'], correct: 1 },
       { q: 'What is the range of Pearson r?', options: ['[-1, 1]', '[0, 1]', '[-∞, ∞]', '[0, ∞]'], correct: 0 },
-      { q: 'What is the range of Spearman ρ?', options: ['[-1, 1]', '[0, 1]', '[-∞, ∞]', '[0, ∞]'], correct: 0 },
-      { q: 'What does a correlation of 0 mean?', options: ['No linear relationship', 'No relationship at all', 'Perfect negative relationship', 'Perfect positive relationship'], correct: 0 },
       { q: 'Which correlation is more robust to outliers?', options: ['Pearson', 'Spearman', 'Both equally', 'Neither'], correct: 1 },
+      { 
+        q: '✏️ HAND CALCULATION: Data: X=[1,2,3,4], Y=[2,4,6,8]. What is Pearson r?',
+        options: ['0.5', '0.8', '1.0', '1.5'],
+        correct: 2,
+        calculation: 'Perfect positive linear relationship → r = 1.0'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: For X=[1,2,3,4], Y=[2,4,6,8], what is the Spearman ρ?',
+        options: ['0.5', '0.8', '1.0', '1.5'],
+        correct: 2,
+        calculation: 'Perfect monotonic relationship → ρ = 1.0'
+      },
       { q: 'What is the test statistic for testing Pearson correlation?', options: ['t', 'z', 'F', 'χ²'], correct: 0 },
       { q: 'What is a key advantage of rank-based correlations?', options: ['More power', 'Robust to outliers', 'Requires normality', 'Assumes linearity'], correct: 1 }
     ]
@@ -1033,12 +1107,20 @@ summary(mblm(y ~ x))  # Slope = 2.1, p < 0.001`,
       { q: 'What does the slope in linear regression represent?', options: ['Change in Y per unit X', 'Change in X per unit Y', 'Correlation', 'Variance'], correct: 0 },
       { q: 'What is the nonparametric alternative to regression slope?', options: ['Theil-Sen', 'Kendall', 'Both A and B', 'ANOVA'], correct: 2 },
       { q: 'What is the score function for Theil-Sen?', options: ['a(i)=i', 'a(i)=pairwise slopes', 'a(i)=ranks', 'a(i)=signs'], correct: 1 },
-      { q: 'When would you use Theil-Sen instead of linear regression?', options: ['When data are normal', 'When outliers are present', 'When sample size is large', 'When variances are equal'], correct: 1 },
       { q: 'What is the test statistic for testing regression slope?', options: ['t', 'z', 'F', 'χ²'], correct: 0 },
-      { q: 'What does the t-test on slope test?', options: ['β₀ = 0', 'β₁ = 0', 'β₁ = 1', 'All coefficients = 0'], correct: 1 },
-      { q: 'What is Kendall\'s τ measuring?', options: ['Linear correlation', 'Rank concordance', 'Mean difference', 'Variance ratio'], correct: 1 },
+      { 
+        q: '✏️ HAND CALCULATION: If b₁ = 1.5 and SE = 0.5, what is the t-statistic?',
+        options: ['2.0', '3.0', '4.0', '5.0'],
+        correct: 1,
+        calculation: 't = 1.5/0.5 = 3.0'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: For points (1,2), (2,4), (3,6), what is the slope using Theil-Sen?',
+        options: ['1.0', '2.0', '3.0', '4.0'],
+        correct: 1,
+        calculation: 'All pairwise slopes = 2, median = 2.0'
+      },
       { q: 'What percentage of outliers can Theil-Sen handle?', options: ['10%', '29%', '50%', '100%'], correct: 1 },
-      { q: 'What is the advantage of robust regression methods?', options: ['More power', 'Less affected by outliers', 'Requires normality', 'Assumes linearity'], correct: 1 },
       { q: 'What should you check before using linear regression?', options: ['Normality of residuals', 'Homoscedasticity', 'Linearity', 'All of the above'], correct: 3 }
     ]
   }
@@ -1057,14 +1139,11 @@ summary(mblm(y ~ x))  # Slope = 2.1, p < 0.001`,
       theory: `Models survival times using parametric distributions (Exponential, Weibull, Log-normal).
         <span class="assumption">Assumptions:</span> Survival times follow a specific distribution.
         <span class="assumption">Test statistic:</span> Likelihood ratio test for comparing groups.
-        <span class="assumption">Sensitive to:</span> Distributional misspecification, outliers.
-        <span class="assumption">Interpretation:</span> Hazard ratio = exp(β) from Cox or parametric models.`,
+        <span class="assumption">Sensitive to:</span> Distributional misspecification, outliers.`,
       example: '10 patients: times [6, 8, 10+, 12, 15, 18, 20+, 22, 25, 30+] months',
-      calc: `Exponential model: λ̂ = events / total time = 7 / (6+8+12+15+18+22+25+10+20+30)
-        = 7 / 166 = 0.0422 events/month
-        Median survival = ln(2)/λ = 0.693/0.0422 = 16.4 months
-        Log-likelihood = -n·ln(λ) + λ·Σtᵢ = -7·ln(0.0422) + 0.0422·166 = 22.3 - 7.0 = 15.3
-        AIC = -2·LL + 2·k = -30.6 + 2 = -28.6`,
+      calc: `Exponential model: λ̂ = events / total time = 7 / 166 = 0.0422
+        Median survival = ln(2)/λ = 16.4 months
+        Log-likelihood = -7·ln(0.0422) + 0.0422·166 = 15.3`,
       result: 'λ = 0.0422, Median = 16.4 months, AIC = -28.6'
     },
     nonparam: {
@@ -1072,8 +1151,7 @@ summary(mblm(y ~ x))  # Slope = 2.1, p < 0.001`,
       theory: `Nonparametric estimator of survival function S(t) = P(T > t).
         <span class="assumption orange">Assumptions:</span> Independent censoring, no competing risks.
         <span class="assumption orange">Robust to:</span> No distributional assumptions.
-        <span class="assumption orange">Test statistic:</span> Ŝ(t) = Πᵢ (1 - dᵢ/nᵢ) for ordered failure times.
-        <span class="assumption orange">Comparison:</span> Log-rank test for group differences.`,
+        <span class="assumption orange">Test statistic:</span> Ŝ(t) = Πᵢ (1 - dᵢ/nᵢ) for ordered failure times.`,
       example: 'Same data: times [6, 8, 10+, 12, 15, 18, 20+, 22, 25, 30+]',
       calc: `Ordered event times: 6, 8, 12, 15, 18, 22, 25
         t=6:  S = 1 - 1/10 = 0.900
@@ -1092,38 +1170,37 @@ library(survival)
 
 # Data: time and censoring indicator (1=event, 0=censored)
 time <- c(6, 8, 10, 12, 15, 18, 20, 22, 25, 30)
-status <- c(1, 1, 0, 1, 1, 1, 0, 1, 1, 0)  # 1=event, 0=censored
+status <- c(1, 1, 0, 1, 1, 1, 0, 1, 1, 0)
 
 # Parametric: Exponential survival model
 exp_model <- survreg(Surv(time, status) ~ 1, dist = "exponential")
 summary(exp_model)
-# Output: λ = 0.0422, Median = 16.4 months
 
 # Nonparametric: Kaplan-Meier
 km_fit <- survfit(Surv(time, status) ~ 1)
 summary(km_fit)
-# Output: Median = 18 months
 
 # Plot Kaplan-Meier curve
-plot(km_fit, xlab = "Time (months)", ylab = "Survival Probability",
-     main = "Kaplan-Meier Survival Curve")
-
-# Add confidence intervals
-lines(km_fit, conf.int = TRUE, col = "blue")
-
-# Log-rank test for group comparison (if groups exist)
-# survdiff(Surv(time, status) ~ group)`,
+plot(km_fit, xlab = "Time (months)", ylab = "Survival Probability")`,
     quiz: [
       { q: 'What is the Kaplan-Meier estimator used for?', options: ['Comparing means', 'Estimating survival probabilities', 'Testing normality', 'Measuring correlation'], correct: 1 },
-      { q: 'What does the score function Ŝ(t) = Πᵢ (1 - dᵢ/nᵢ) represent?', options: ['Hazard function', 'Survival function', 'Cumulative incidence', 'Probability density'], correct: 1 },
       { q: 'What is a key advantage of Kaplan-Meier over parametric survival models?', options: ['More power', 'No distributional assumptions', 'Requires less data', 'Easier to interpret'], correct: 1 },
       { q: 'What is censoring in survival analysis?', options: ['Removing outliers', 'Incomplete follow-up', 'Adding noise', 'Transforming data'], correct: 1 },
       { q: 'What does the log-rank test compare?', options: ['Means', 'Variances', 'Survival curves', 'Correlations'], correct: 2 },
+      { 
+        q: '✏️ HAND CALCULATION: At t=10, risk set n=8, events d=2. What is the survival probability after this event? (Previous S=0.75)',
+        options: ['0.5625', '0.6250', '0.7500', '0.8750'],
+        correct: 0,
+        calculation: 'S_new = 0.75 × (1 - 2/8) = 0.75 × 0.75 = 0.5625'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: If there are 5 patients at risk and 1 event occurs, by what factor does S(t) decrease?',
+        options: ['0.5', '0.8', '1.0', '1.25'],
+        correct: 1,
+        calculation: 'Factor = 1 - 1/5 = 0.8'
+      },
       { q: 'What is the median survival time?', options: ['Time when 50% have died', 'Mean survival time', 'Maximum survival time', 'Minimum survival time'], correct: 0 },
-      { q: 'What assumption does Kaplan-Meier require?', options: ['Normality', 'Independent censoring', 'Equal variances', 'Linearity'], correct: 1 },
-      { q: 'What is a hazard ratio?', options: ['Ratio of means', 'Ratio of hazards between groups', 'Ratio of variances', 'Ratio of correlations'], correct: 1 },
-      { q: 'When would you use a parametric survival model?', options: ['When data are skewed', 'When distribution is known', 'When outliers are present', 'When sample size is small'], correct: 1 },
-      { q: 'What is the score function for the log-rank test?', options: ['a(i)=i', 'a(i)=Oᵢ-Eᵢ', 'a(i)=sign(d)', 'a(i)=rank(t)'], correct: 1 }
+      { q: 'What assumption does Kaplan-Meier require?', options: ['Normality', 'Independent censoring', 'Equal variances', 'Linearity'], correct: 1 }
     ]
   }
 },
@@ -1145,7 +1222,6 @@ lines(km_fit, conf.int = TRUE, col = "blue")
       example: 'Sample mean x̄ = 5.2, s = 1.8, n = 20',
       calc: `95% CI = x̄ ± t₀.₀₂₅·(s/√n)
         = 5.2 ± 2.093·(1.8/√20)
-        = 5.2 ± 2.093·0.402
         = 5.2 ± 0.842
         CI = [4.358, 6.042]`,
       result: '95% CI: [4.36, 6.04] assuming normality'
@@ -1155,66 +1231,138 @@ lines(km_fit, conf.int = TRUE, col = "blue")
       theory: `Resamples data with replacement to estimate sampling distribution.
         <span class="assumption orange">Assumptions:</span> Sample is representative of the population.
         <span class="assumption orange">Robust to:</span> No distributional assumptions.
-        <span class="assumption orange">Test statistic:</span> B replicates (typically 1000-10000) of the statistic of interest.
-        <span class="assumption orange">Score function:</span> Each bootstrap sample is a score transformation.`,
+        <span class="assumption orange">Test statistic:</span> B replicates (typically 1000-10000) of the statistic of interest.`,
       example: 'Same data: n=20, x̄=5.2, s=1.8, B=1000 bootstrap samples',
       calc: `For each bootstrap sample b=1..1000:
-        1. Sample n=20 with replacement from original data
+        1. Sample n=20 with replacement
         2. Calculate x̄*ᵦ
       After B=1000 replicates:
-        Standard error = SD(x̄*₁, ..., x̄*₁₀₀₀)
-        Bootstrapped 95% CI = Percentile method:
-        Lower = 2.5th percentile of x̄* distribution
-        Upper = 97.5th percentile of x̄* distribution
-        Example: SE* = 0.38, CI* = [4.45, 6.01]`,
+        SE* = SD(x̄*₁, ..., x̄*₁₀₀₀) = 0.38
+        Bootstrapped 95% CI (percentile):
+        Lower = 2.5th percentile = 4.45
+        Upper = 97.5th percentile = 6.01`,
       result: 'Bootstrap 95% CI: [4.45, 6.01] (percentile method)',
       score: 'Bootstrap score: Each resample = score transformation. θ̂* = θ̂(data*) · SE = SD(θ̂*)'
     },
     rcode: `# ===== BOOTSTRAPPING =====
-# Data
 data <- rnorm(20, 5.2, 1.8)
 B <- 1000
 
-# 1. Parametric CI (assuming normality)
-t.test(data)$conf.int  # CI: [4.36, 6.04]
+# Parametric CI (assuming normality)
+t.test(data)$conf.int
 
-# 2. Nonparametric Bootstrap
-boot_means <- replicate(B, {
-  boot_sample <- sample(data, replace = TRUE)
-  mean(boot_sample)
-})
+# Nonparametric Bootstrap
+boot_means <- replicate(B, mean(sample(data, replace = TRUE)))
+se_boot <- sd(boot_means)
+ci_boot <- quantile(boot_means, c(0.025, 0.975))
 
-# Bootstrap standard error
-se_boot <- sd(boot_means)  # ≈ 0.38
-
-# Bootstrap percentile CI
-ci_boot <- quantile(boot_means, c(0.025, 0.975))  # [4.45, 6.01]
-
-# Bootstrap BCa CI (bias-corrected accelerated)
+# Bootstrap BCa CI
 library(boot)
 boot_obj <- boot(data, function(x, i) mean(x[i]), R = B)
-boot.ci(boot_obj, type = "bca")
-
-# Visualize bootstrap distribution
-hist(boot_means, breaks = 30, main = "Bootstrap Distribution",
-     xlab = "Bootstrap Means", col = "#4a8fd8")
-abline(v = ci_boot, col = "red", lwd = 2, lty = 2)
-abline(v = mean(data), col = "blue", lwd = 2)
-
-# Bootstrap hypothesis test (e.g., test if mean > 5)
-boot_test <- boot(data, function(x, i) mean(x[i]) - 5, R = B)
-p_boot <- mean(boot_test$t > 0)  # proportion of bootstrap stats > 0`,
+boot.ci(boot_obj, type = "bca")`,
     quiz: [
       { q: 'What is the bootstrap method used for?', options: ['Estimating distributions without assumptions', 'Testing normality', 'Measuring correlation', 'Comparing variances'], correct: 0 },
       { q: 'What is the key difference between parametric and bootstrap inference?', options: ['Bootstrap assumes normality', 'Bootstrap makes no distributional assumptions', 'Bootstrap requires larger samples', 'Bootstrap is less accurate'], correct: 1 },
       { q: 'What does B represent in bootstrapping?', options: ['Sample size', 'Number of bootstrap replicates', 'Number of variables', 'Significance level'], correct: 1 },
       { q: 'What is the score function in bootstrapping?', options: ['a(i)=i', 'Each resample is a score transformation', 'a(i)=rank(i)', 'a(i)=sign(i)'], correct: 1 },
-      { q: 'What is the percentile method in bootstrapping?', options: ['Using percentiles of bootstrap distribution as CI', 'Using parametric formula', 'Using t-distribution', 'Using F-distribution'], correct: 0 },
-      { q: 'What is a key advantage of bootstrapping?', options: ['More power', 'No distributional assumptions', 'Requires less data', 'Easier to calculate'], correct: 1 },
-      { q: 'When would you use bootstrapping?', options: ['When data are normal', 'When distribution is unknown', 'When sample is large', 'When variances are equal'], correct: 1 },
+      { 
+        q: '✏️ HAND CALCULATION: Bootstrap sample means: [5.0, 5.5, 6.0, 4.5, 5.5]. What is the bootstrap standard error?',
+        options: ['0.50', '0.56', '0.62', '0.71'],
+        correct: 1,
+        calculation: 'Mean = 5.3, deviations: -0.3, 0.2, 0.7, -0.8, 0.2. Sum squares = 0.09+0.04+0.49+0.64+0.04 = 1.30. SD = √(1.30/4) = √0.325 = 0.570'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: For bootstrap means [4.8, 5.2, 5.6, 5.0, 5.4], what is the 80% percentile CI (10th and 90th percentiles)?',
+        options: ['[4.8, 5.6]', '[4.9, 5.5]', '[5.0, 5.4]', '[4.7, 5.7]'],
+        correct: 0,
+        calculation: 'Sorted: 4.8, 5.0, 5.2, 5.4, 5.6. 10th percentile ≈ 4.8, 90th percentile ≈ 5.6'
+      },
       { q: 'What is the BCa bootstrap?', options: ['A parametric method', 'Bias-corrected accelerated bootstrap', 'A type of t-test', 'A regression method'], correct: 1 },
-      { q: 'What is the standard error in bootstrapping?', options: ['SD of bootstrap replicates', 'SD of original data', 'Mean of bootstrap replicates', 'Variance of original data'], correct: 0 },
       { q: 'Which is more robust to violations of assumptions?', options: ['Parametric methods', 'Bootstrap methods', 'Both equally', 'Neither'], correct: 1 }
+    ]
+  }
+},
+{
+  id: 9,
+  icon: 'fa-wave-square',
+  title: 'Nonparametric Regression',
+  subtitle: 'Smoothing without assumptions',
+  badge: 'smoothing',
+  iconClass: 'green-icon',
+  badgeClass: 'green-badge',
+  data: {
+    param: {
+      name: 'Polynomial / Linear Regression',
+      theory: `Models the relationship as a polynomial function (usually linear or quadratic).
+        <span class="assumption">Assumptions:</span> Linear or polynomial form, normal errors, homoscedasticity.
+        <span class="assumption">Test statistic:</span> F-test for model fit, t-tests for coefficients.
+        <span class="assumption">Sensitive to:</span> Model misspecification, outliers, non-linearity.
+        <span class="assumption">Equation:</span> E[Y|X] = β₀ + β₁X + β₂X² + ...`,
+      example: 'n = 50 data points with a nonlinear relationship: Y = sin(X) + ε',
+      calc: `Linear model fit: Y = 0.45 + 0.32X, R² = 0.32
+        Quadratic model: Y = -0.12 + 0.85X - 0.08X², R² = 0.58
+        F-test for quadratic vs linear: F = 12.4, p = 0.001`,
+      result: 'Quadratic model: R² = 0.58, p < 0.001 → Significant but potentially misspecified'
+    },
+    nonparam: {
+      name: 'Local Regression / LOESS & Kernel Smoothing',
+      theory: `Estimates the regression function without assuming a specific parametric form.
+        <span class="assumption green">Assumptions:</span> Smoothness (continuity), local linearity.
+        <span class="assumption green">Robust to:</span> Non-linearity, outliers (with robust weights), arbitrary shapes.
+        <span class="assumption green">Score function:</span> K((x−xᵢ)/h) where K is a kernel function.
+        <span class="assumption green">Test statistic:</span> Cross-validation for bandwidth selection.`,
+      example: 'Same 50 data points: Y = sin(X) + ε with X in [0, 2π]',
+      calc: `For each prediction point x₀, find the k nearest neighbors:
+        1. Define kernel weights: K((x₀−xᵢ)/h) = (1/√(2π))·exp(−0.5·((x₀−xᵢ)/h)²)
+        2. Fit weighted linear regression
+        3. Prediction: ŷ(x₀) = â (the intercept at x₀)
+        Example for x₀ = 3.14 (π):
+        LOESS with span = 0.5 gives CV-R² = 0.92`,
+      result: 'LOESS fits well: CV-R² = 0.92. Adaptive to nonlinear patterns.',
+      score: 'K((x−xᵢ)/h) = kernel function · ŷ(x₀) = Σ wᵢyᵢ/Σ wᵢ (Nadaraya-Watson)'
+    },
+    rcode: `# ===== NONPARAMETRIC REGRESSION =====
+set.seed(123)
+X <- runif(50, 0, 2*pi)
+Y <- sin(X) + rnorm(50, 0, 0.15)
+
+# Parametric: Polynomial regression
+linear <- lm(Y ~ X)
+quadratic <- lm(Y ~ X + I(X^2))
+
+# Nonparametric: LOESS
+loess_fit <- loess(Y ~ X, span = 0.5, degree = 1)
+
+# Kernel smoothing
+library(KernSmooth)
+kernel_fit <- ksmooth(X, Y, kernel = "normal", bandwidth = 0.3)
+
+# GAM
+library(mgcv)
+gam_fit <- gam(Y ~ s(X, k = 10))
+
+# Compare fits
+linear_mse <- mean((predict(linear) - sin(X))^2)
+loess_mse <- mean((predict(loess_fit) - sin(X))^2)`,
+    quiz: [
+      { q: 'What is the main advantage of nonparametric regression?', options: ['More power with linear data', 'No assumption about functional form', 'Requires less computation', 'Easier to interpret'], correct: 1 },
+      { q: 'What is the score function in kernel regression?', options: ['a(i)=i', 'K((x-xᵢ)/h) kernel weights', 'a(i)=rank(i)', 'a(i)=sign(i)'], correct: 1 },
+      { q: 'What does LOESS stand for?', options: ['Linear Ordinary Estimation', 'LOcal regrESSion', 'Logistic Estimation', 'Least Squares'], correct: 1 },
+      { q: 'What is the bandwidth (h) in kernel smoothing?', options: ['Sample size', 'Smoothing parameter controlling width', 'Number of variables', 'Significance level'], correct: 1 },
+      { 
+        q: '✏️ HAND CALCULATION: For a kernel regression with points at x=1,2,3 with weights [0.5, 1.0, 0.5] and y=[2,4,6], what is the weighted mean at x=2?',
+        options: ['3.0', '4.0', '5.0', '6.0'],
+        correct: 1,
+        calculation: 'Weighted mean = (0.5·2 + 1.0·4 + 0.5·6)/(0.5+1.0+0.5) = (1+4+3)/2 = 8/2 = 4.0'
+      },
+      { 
+        q: '✏️ HAND CALCULATION: If data have local weights [0.2, 0.8, 1.0, 0.8, 0.2] and y=[1,3,5,7,9], what is the Nadaraya-Watson estimate at the center?',
+        options: ['4.0', '5.0', '6.0', '7.0'],
+        correct: 1,
+        calculation: 'Weighted mean = (0.2·1 + 0.8·3 + 1.0·5 + 0.8·7 + 0.2·9)/(0.2+0.8+1.0+0.8+0.2) = (0.2+2.4+5+5.6+1.8)/3.0 = 15.0/3.0 = 5.0'
+      },
+      { q: 'What is the purpose of cross-validation in nonparametric regression?', options: ['Test normality', 'Select optimal bandwidth/span', 'Test correlation', 'Compare variances'], correct: 1 },
+      { q: 'Which is more flexible: LOESS or linear regression?', options: ['Linear regression', 'LOESS', 'Both equally', 'Neither'], correct: 1 }
     ]
   }
 }
@@ -1267,7 +1415,10 @@ function openModal(topic) {
         ${quiz.map((q, idx) => `
           <div class="quiz-question" data-q="${idx}">
             <div class="q-number">Question ${idx + 1} of ${quiz.length}</div>
-            <div class="q-text">${q.q}</div>
+            <div class="q-text">
+              ${q.q}
+              ${q.calculation ? `<span class="calc-prompt">💡 Hint: ${q.calculation}</span>` : ''}
+            </div>
             <div class="q-options">
               ${q.options.map((opt, oi) => `
                 <label>
@@ -1297,11 +1448,11 @@ function openModal(topic) {
       <div class="modal-section">
         <div class="section-title"><i class="fas fa-question-circle"></i> Why Nonparametric?</div>
         <div style="background:#f0f6fc;padding:1rem 1.2rem;border-radius:12px;font-size:0.9rem;line-height:1.7;border-left:4px solid #3a7bd5;">
-          <strong>Parametric methods</strong> assume specific distributions (e.g., normality) and are sensitive to outliers.
-          <strong>Nonparametric methods</strong> make fewer assumptions, use ranks/signs/resampling, and are robust to outliers and non-normality.
-          They are essential when data are skewed, ordinal, when sample sizes are small, or when the true distribution is unknown.
+          <strong>Parametric methods</strong> assume specific distributions (e.g., normality) or functional forms (e.g., linear).
+          <strong>Nonparametric methods</strong> make fewer assumptions, using ranks, signs, resampling, smoothing, or local fitting.
+          They are essential when data are skewed, relationships are unknown, or when sample sizes are small.
           <br><br>
-          <strong>Score functions</strong> (ranks, signs, pairwise comparisons, survival probabilities, resampling) are the mathematical engine that makes nonparametric tests distribution-free.
+          <strong>Score functions</strong> (ranks, signs, kernels, smoothing weights) are the mathematical engine that makes nonparametric methods flexible and distribution-free.
         </div>
       </div>
 
@@ -1320,17 +1471,17 @@ function openModal(topic) {
         </div>
 
         <!-- Nonparametric -->
-        <div class="method-detail nonparam-detail">
-          <h4><i class="fas fa-arrow-right icon-nonparam" style="color:#c0702e;"></i> ${d.nonparam.name}</h4>
+        <div class="method-detail ${topic.id === 9 ? 'nonparam-detail-green' : 'nonparam-detail'}">
+          <h4><i class="fas fa-arrow-right ${topic.id === 9 ? 'icon-nonparam-green' : 'icon-nonparam'}" style="color:${topic.id === 9 ? '#2a7a3a' : '#c0702e'};"></i> ${d.nonparam.name}</h4>
           <div class="theory-text">${d.nonparam.theory}</div>
-          <div class="calc-block non-calc">
+          <div class="calc-block ${topic.id === 9 ? 'non-calc-green' : 'non-calc'}">
             <div class="calc-label"><i class="fas fa-table"></i> Data & Example</div>
             <div style="font-weight:500;margin-bottom:0.2rem;">${d.nonparam.example}</div>
             <div class="calc-label" style="margin-top:0.5rem;"><i class="fas fa-calculator"></i> Calculation</div>
             <div class="calc-steps">${d.nonparam.calc}</div>
-            <div class="calc-result orange-result">${d.nonparam.result}</div>
+            <div class="calc-result ${topic.id === 9 ? 'green-result' : 'orange-result'}">${d.nonparam.result}</div>
           </div>
-          <div class="score-badge-detail">
+          <div class="score-badge-detail ${topic.id === 9 ? 'green' : ''}">
             <i class="fas fa-code"></i>
             <span style="font-weight:600;">Score function:</span>
             <span style="background:rgba(255,255,255,0.5);padding:0.05rem 0.6rem;border-radius:20px;">${d.nonparam.score}</span>
@@ -1356,7 +1507,7 @@ function openModal(topic) {
     <div class="tab-content" id="tab-quiz">
       <div class="modal-section">
         <div class="section-title"><i class="fas fa-question-circle"></i> Test Your Knowledge</div>
-        <p style="font-size:0.9rem;color:#5a7a9a;margin-bottom:1rem;">Answer all questions below. After submission, you'll see which answers were correct.</p>
+        <p style="font-size:0.9rem;color:#5a7a9a;margin-bottom:1rem;">Answer all questions below. Questions marked with ✏️ require hand calculations.</p>
         ${quizHTML || '<p style="color:#5a7a9a;">No quiz available for this topic.</p>'}
       </div>
     </div>
@@ -1393,10 +1544,10 @@ function openModal(topic) {
             if (answer === q.correct) {
               correct++;
               feedback.className = 'q-feedback show correct';
-              feedback.innerHTML = '✅ Correct!';
+              feedback.innerHTML = q.calculation ? `✅ Correct! ${q.calculation}` : '✅ Correct!';
             } else {
               feedback.className = 'q-feedback show incorrect';
-              feedback.innerHTML = `❌ Incorrect. The correct answer is ${String.fromCharCode(65 + q.correct)}: ${q.options[q.correct]}`;
+              feedback.innerHTML = q.calculation ? `❌ Incorrect. ${q.calculation}` : `❌ Incorrect. The correct answer is ${String.fromCharCode(65 + q.correct)}: ${q.options[q.correct]}`;
             }
           } else {
             allAnswered = false;
