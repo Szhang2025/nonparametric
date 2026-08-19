@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parametric vs Nonparametric · Interactive Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2eaf2 100%);
+  color: #1a2639;
+  min-height: 100vh;
+  padding: 2rem;
+}
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+.header-modern {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  padding: 2rem 2.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.8);
+  box-shadow: 0 8px 32px rgba(0,20,40,0.06);
+  margin-bottom: 2.5rem;
+}
+.header-modern h1 {
+  font-weight: 700;
+  font-size: 2.4rem;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.header-modern h1 .highlight {
+  background: linear-gradient(135deg, #2a6bb0, #4a8fd8);
+  color: white;
+  padding: 0.1rem 1.2rem;
+  border-radius: 40px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.header-modern .subhead {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #3a5a7a;
+}
+.header-modern .subhead i {
+  color: #f5b342;
+  margin-right: 0.3rem;
+}
+
+/* ===== SCORE INTRODUCTION ===== */
+.score-intro {
+  background: linear-gradient(135deg, #f8f4f0, #f0ece8);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  border-left: 5px solid #c0702e;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.score-intro:hover {
+  box-shadow: 0 4px 16px rgba(192,112,46,0.15);
+}
+.score-intro .intro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.score-intro .intro-header h2 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #7a4a1f;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.score-intro .intro-header i {
+  color: #c0702e;
+}
+.score-intro .intro-content {
+  display: none;
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #3a2a1a;
+}
+.score-intro .intro-content.active {
+  display: block;
+  animation: fadeSlide 0.3s ease;
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.score-intro .intro-content .score-box {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin: 0.5rem 0;
+  border: 1px solid #e8ddd0;
+}
+.score-intro .intro-content .score-box code {
+  font-family: 'JetBrains Mono', monospace;
+  background: #f5f0eb;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.score-intro .intro-content .score-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+.score-intro .intro-content .score-types .type-card {
+  background: white;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e8ddd0;
+  text-align: center;
+}
+.score-intro .intro-content .score-types .type-card i {
+  font-size: 1.5rem;
+  color: #c0702e;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* ===== TOPIC GRID ===== */
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.topic-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  border: 2px solid #e9f0f5;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,20,40,0.04);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.topic-card:hover {
+  transform: translateY(-4px);
+  border-color: #3a7bd5;
+  box-shadow: 0 8px 24px rgba(24, 60, 110, 0.12);
+}
+.topic-card .topic-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e4edf8, #d4e2fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #2a6bb0;
+  flex-shrink: 0;
+}
+.topic-card .topic-icon.orange-icon {
+  background: linear-gradient(135deg, #f8ede0, #f0dcc8);
+  color: #c0702e;
+}
+.topic-card .topic-info h3 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #0a2a4a;
+}
+.topic-card .topic-info p {
+  font-size: 0.78rem;
+  color: #5a7a9a;
+  margin-top: 0.1rem;
+}
+.topic-card .topic-badge {
+  margin-left: auto;
+  font-size: 0.6rem;
+  background: #eef4fa;
+  padding: 0.2rem 0.6rem;
+  border-radius: 30px;
+  color: #4a6a8a;
+  font-weight: 500;
+}
+.topic-card .topic-badge.orange-badge {
+  background: #fde8d4;
+  color: #7a4a1f;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 2rem;
+}
+.modal-overlay.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  border-radius: 28px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0;
+  box-shadow: 0 32px 64px rgba(0,20,40,0.2);
+  animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid #e9f0f5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  border-radius: 28px 28px 0 0;
+  z-index: 10;
+}
+.modal-header h2 {
+  font-weight: 700;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #0a2a4a;
+}
+.modal-header h2 i {
+  color: #3a7bd5;
+}
+.modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f4f8;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #4a6a8a;
+  transition: all 0.2s;
+}
+.modal-close:hover {
+  background: #e74c3c;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+/* ===== TABS ===== */
+.modal-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e9f0f5;
+  padding-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.modal-tabs .tab-btn {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #5a7a9a;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.modal-tabs .tab-btn:hover {
+  background: #f0f4f8;
+}
+.modal-tabs .tab-btn.active {
+  background: #3a7bd5;
+  color: white;
+}
+.modal-tabs .tab-btn .badge-tab {
+  background: rgba(255,255,255,0.2);
+  padding: 0.05rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+}
+
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeSlide 0.3s ease;
+}
+
+/* ===== MODAL SECTIONS ===== */
+.modal-section {
+  margin-bottom: 2rem;
+}
+.modal-section:last-child {
+  margin-bottom: 0;
+}
+.modal-section .section-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #0a2a4a;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.modal-section .section-title i {
+  color: #3a7bd5;
+}
+.modal-section .section-title .orange-i {
+  color: #c0702e;
+}
+
+/* ===== COMPARISON LAYOUT ===== */
+.comparison-modal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 860px) {
+  .comparison-modal { grid-template-columns: 1fr; }
+}
+
+.method-detail {
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid #e8eef5;
+}
+.method-detail.param-detail {
+  border-left: 5px solid #3a7bd5;
+  background: #f8fbff;
+}
+.method-detail.nonparam-detail {
+  border-left: 5px solid #d4833a;
+  background: #fffbf7;
+}
+.method-detail h4 {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.method-detail .theory-text {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #1e385a;
+  margin: 0.5rem 0;
+}
+.method-detail .theory-text .assumption {
+  display: inline-block;
+  background: rgba(58,123,213,0.08);
+  padding: 0.05rem 0.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  margin: 0.1rem 0;
+}
+.method-detail .theory-text .assumption.orange {
+  background: rgba(212,131,58,0.1);
+  color: #8a5a2a;
+}
+
+/* ===== CALCULATIONS ===== */
+.calc-block {
+  background: #f5f8fc;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  margin: 0.5rem 0;
+  border: 1px solid #eef3f8;
+}
+.calc-block.non-calc {
+  background: #fcf5ed;
+  border-color: #f0e4d8;
+}
+.calc-block .calc-label {
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #4a6a8a;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.calc-block .calc-steps {
+  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.6;
+}
+.calc-block .calc-result {
+  font-weight: 600;
+  color: #0a2a4a;
+  margin-top: 0.3rem;
+  padding: 0.2rem 0.7rem;
+  background: rgba(58,123,213,0.06);
+  border-radius: 6px;
+  display: inline-block;
+}
+.calc-block .calc-result.orange-result {
+  background: rgba(212,131,58,0.08);
+  color: #7a4a1f;
+}
+
+/* ===== SCORE FUNCTION ===== */
+.score-badge-detail {
+  margin-top: 0.6rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #fcf0e4, #f8e8d8);
+  border: 1px solid #f0d4b8;
+  color: #7a4a1f;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.score-badge-detail i {
+  color: #c0702e;
+}
+
+/* ===== R CODE ===== */
+.code-block {
+  background: #1a2639;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+.code-block code {
+  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-size: 0.82rem;
+  color: #e8eef5;
+  white-space: pre;
+  line-height: 1.7;
+}
+
+/* ===== QUIZ ===== */
+.quiz-container {
+  padding: 0.5rem 0;
+}
+.quiz-question {
+  background: #f8fafc;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #e9f0f5;
+}
+.quiz-question .q-number {
+  font-weight: 600;
+  color: #3a7bd5;
+  font-size: 0.8rem;
+}
+.quiz-question .q-text {
+  font-weight: 500;
+  margin: 0.3rem 0 0.5rem;
+  font-size: 0.92rem;
+}
+.quiz-question .q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.quiz-question .q-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.quiz-question .q-options label:hover {
+  background: #eef4fa;
+}
+.quiz-question .q-options input[type="radio"] {
+  accent-color: #3a7bd5;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.quiz-question .q-feedback {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  display: none;
+}
+.quiz-question .q-feedback.show {
+  display: block;
+}
+.quiz-question .q-feedback.correct {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+.quiz-question .q-feedback.incorrect {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.quiz-submit {
+  margin-top: 1rem;
+  padding: 0.7rem 2rem;
+  background: linear-gradient(135deg, #2a6bb0, #4a8fd8);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.quiz-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(42,107,176,0.3);
+}
+.quiz-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.quiz-score {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #eef4fa;
+  font-weight: 600;
+  display: none;
+}
+.quiz-score.show {
+  display: block;
+  animation: fadeSlide 0.3s ease;
+}
+
+/* ===== KAPLAN-MEIER SPECIFIC ===== */
+.km-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+}
+.km-table th, .km-table td {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #e8eef5;
+  text-align: center;
+}
+.km-table th {
+  background: #f0f4f8;
+  font-weight: 600;
+}
+.km-table .highlight-row {
+  background: #fff8f0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  body { padding: 1rem; }
+  .header-modern { padding: 1.2rem; }
+  .header-modern h1 { font-size: 1.6rem; }
+  .modal-content { margin: 0.5rem; max-height: 95vh; }
+  .modal-header { padding: 1rem 1.2rem; }
+  .modal-header h2 { font-size: 1.2rem; }
+  .modal-body { padding: 1.2rem; }
+  .method-detail { padding: 0.8rem 1rem; }
+  .code-block code { font-size: 0.7rem; }
+  .topic-grid { grid-template-columns: 1fr; }
+  .score-intro { padding: 1rem; }
+  .score-intro .intro-content .score-types {
+    grid-template-columns: 1fr;
+  }
+  .modal-tabs .tab-btn { font-size: 0.75rem; padding: 0.3rem 0.8rem; }
+  .km-table { font-size: 0.7rem; }
+  .km-table th, .km-table td { padding: 0.2rem 0.3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+<!-- ===== HEADER ===== -->
+<header class="header-modern">
+  <h1>
+    <i class="fas fa-chart-simple" style="color:#2a6bb0;" aria-hidden="true"></i>
+    Parametric <span style="color:#6a8aa0;font-weight:300;">↔</span> Nonparametric
+    <span class="highlight">Interactive Learning</span>
+  </h1>
+  <div class="subhead">
+    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+    8 topics · Theory · Calculations · R Code · Quizzes · Score Functions
+  </div>
+</header>
+
+<!-- ===== SCORE FUNCTION INTRODUCTION ===== -->
+<div class="score-intro" id="scoreIntro">
+  <div class="intro-header">
+    <h2><i class="fas fa-code"></i> What Are Score Functions? <span style="font-size:0.7rem;font-weight:400;color:#8a7a6a;">(click to expand)</span></h2>
+    <i class="fas fa-chevron-down" id="introToggle" style="color:#c0702e;transition:transform 0.3s;"></i>
+  </div>
+  <div class="intro-content" id="introContent">
+    <p><strong>Score functions</strong> are the mathematical transformations that convert raw data into a form used by nonparametric tests. They are the <strong>backbone</strong> of nonparametric inference.</p>
+    
+    <div class="score-types">
+      <div class="type-card">
+        <i class="fas fa-sort-numeric-up-alt"></i>
+        <strong>Ranks</strong>
+        <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Replace values with their position in sorted order</p>
+        <code style="font-size:0.7rem;">a(i) = i</code>
+      </div>
+      <div class="type-card">
+        <i class="fas fa-plus-minus"></i>
+        <strong>Signs</strong>
+        <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Indicate direction of difference (+ or −)</p>
+        <code style="font-size:0.7rem;">sign(dᵢ) = ±1</code>
+      </div>
+      <div class="type-card">
+        <i class="fas fa-arrows-left-right"></i>
+        <strong>Pairwise</strong>
+        <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Compare all pairs of observations</p>
+        <code style="font-size:0.7rem;">sign(Xⱼ−Xᵢ)</code>
+      </div>
+      <div class="type-card">
+        <i class="fas fa-clock"></i>
+        <strong>Survival</strong>
+        <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Event probabilities over time</p>
+        <code style="font-size:0.7rem;">Ŝ(t) = Π(1−dᵢ/nᵢ)</code>
+      </div>
+      <div class="type-card">
+        <i class="fas fa-sync-alt"></i>
+        <strong>Resampling</strong>
+        <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.2rem;">Repeated sampling with replacement</p>
+        <code style="font-size:0.7rem;">B = 1000 iterations</code>
+      </div>
+    </div>
+
+    <div class="score-box">
+      <h4 style="color:#7a4a1f;margin-bottom:0.5rem;">Why Do Score Functions Matter?</h4>
+      <ul style="list-style:none;padding:0;">
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f0ebe5;">✅ <strong>Distribution-free:</strong> Scores don't depend on the underlying distribution</li>
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f0ebe5;">✅ <strong>Robust:</strong> Outliers have limited influence (bounded by rank)</li>
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f0ebe5;">✅ <strong>Interpretable:</strong> Scores reflect relative ordering, not absolute values</li>
+        <li style="padding:0.3rem 0;">✅ <strong>Powerful:</strong> Often maintain high efficiency vs parametric counterparts</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOPIC GRID ===== -->
+<div class="topic-grid" id="topicGrid"></div>
+
+<!-- ===== FOOTER ===== -->
+<div style="text-align:center;font-size:0.8rem;color:#5a7a9a;padding:1rem 0;">
+  <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+  8 core statistical topics · Each with theory, calculations, R code, and 10-question quiz
+</div>
+
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content" id="modalContent">
+    <div class="modal-header">
+      <h2 id="modalTitle"><i class="fas fa-chart-bar"></i> Topic</h2>
+      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Dynamically populated -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== TOPIC DATA WITH KAPLAN-MEIER AND BOOTSTRAPPING =====
+const topics = [
+{
+  id: 1,
+  icon: 'fa-arrow-right-arrow-left',
+  title: 'One-Sample Location',
+  subtitle: 'Mean / Median comparison',
+  badge: 'μ vs median',
+  data: {
+    param: {
+      name: 'One-Sample t-test',
+      theory: `Tests whether the population mean equals a hypothesized value (μ₀).
+        <span class="assumption">Assumptions:</span> Data are normally distributed, independent observations.
+        <span class="assumption">Test statistic:</span> t = (x̄ − μ₀) / (s/√n) with df = n−1
+        <span class="assumption">Sensitive to:</span> Outliers, skewness, heavy tails.`,
+      example: 'n = 10, sample mean x̄ = 102.5, s = 4.2, testing H₀: μ = 100',
+      calc: `t = (102.5 − 100) / (4.2/√10)
+        = 2.5 / (4.2/3.162)
+        = 2.5 / 1.328 = 1.882
+        df = 9, p = 0.092 (two-tailed)`,
+      result: 't = 1.88, df = 9, p = 0.092 → Not significant at α = 0.05'
+    },
+    nonparam: {
+      name: 'Wilcoxon Signed-Rank Test (One-Sample)',
+      theory: `Tests whether the median equals a hypothesized value using signed ranks of deviations.
+        <span class="assumption orange">Assumptions:</span> Symmetric distribution of differences (not necessarily normal).
+        <span class="assumption orange">Robust to:</span> Outliers and non-normality.
+        <span class="assumption orange">Test statistic:</span> W⁺ = sum of positive signed ranks of |xᵢ − M₀|`,
+      example: 'Data: [98, 102, 105, 99, 101, 104, 97, 103, 106, 100], testing H₀: median = 100',
+      calc: `Deviations d = [-2, 2, 5, -1, 1, 4, -3, 3, 6, 0]
+        Ranks of |d|: [2.5, 2.5, 7, 1.5, 1.5, 6, 4.5, 4.5, 9]
+        W⁺ = 2.5 + 7 + 1.5 + 6 + 4.5 + 9 = 30.5
+        For n=9, exact p = 0.156 (two-tailed)`,
+      result: 'W⁺ = 30.5, p = 0.156 → Not significant at α = 0.05',
+      score: 'a(i) = sign(dᵢ) · R(|dᵢ|) · W⁺ = Σ positive signed ranks'
+    },
+    rcode: `# ===== ONE-SAMPLE TESTS =====
+x <- c(98, 102, 105, 99, 101, 104, 97, 103, 106, 100)
+
+# Parametric: t-test
+t.test(x, mu = 100)  # t = 1.882, p = 0.092
+
+# Nonparametric: Wilcoxon signed-rank
+wilcox.test(x, mu = 100, exact = TRUE)  # V = 30.5, p = 0.156`,
+    quiz: [
+      { q: 'What is the main assumption of the one-sample t-test?', options: ['Normality', 'Equal variances', 'Independence', 'Both A and C'], correct: 3 },
+      { q: 'When would you prefer the Wilcoxon signed-rank test over the t-test?', options: ['When data are normal', 'When data are skewed', 'When sample size is large', 'When variances are equal'], correct: 1 },
+      { q: 'What does the score function a(i) = sign(dᵢ) · R(|dᵢ|) represent?', options: ['Raw data values', 'Signed ranks of deviations', 'Absolute deviations', 'Original ranks'], correct: 1 },
+      { q: 'For n=10, the t-test uses how many degrees of freedom?', options: ['8', '9', '10', '11'], correct: 1 },
+      { q: 'Which test is more robust to outliers?', options: ['t-test', 'Wilcoxon signed-rank', 'Both equally', 'Neither'], correct: 1 },
+      { q: 'What does the W⁺ statistic sum?', options: ['All ranks', 'Positive signed ranks', 'Negative signed ranks', 'Absolute ranks'], correct: 1 },
+      { q: 'If data are symmetric but not normal, which test is appropriate?', options: ['t-test only', 'Wilcoxon only', 'Both can be used', 'Neither'], correct: 2 },
+      { q: 'What is the null hypothesis for the one-sample Wilcoxon test?', options: ['Mean = 0', 'Median = hypothesized', 'Variance = 1', 'Distribution is normal'], correct: 1 },
+      { q: 'What happens to the t-test when outliers are present?', options: ['It becomes more powerful', 'It becomes less reliable', 'It is unaffected', 'It becomes nonparametric'], correct: 1 },
+      { q: 'What is a key advantage of score functions?', options: ['They are parametric', 'They are distribution-free', 'They require normality', 'They use raw data'], correct: 1 }
+    ]
+  }
+},
+{
+  id: 2,
+  icon: 'fa-people-group',
+  title: 'Two-Sample Independent',
+  subtitle: 'Unpaired group comparison',
+  badge: '2 groups',
+  data: {
+    param: {
+      name: 'Independent t-test',
+      theory: `Tests whether the means of two independent groups are equal.
+        <span class="assumption">Assumptions:</span> Normality within groups, homogeneity of variances.
+        <span class="assumption">Test statistic:</span> t = (x̄₁ − x̄₂) / √(sₚ²(1/n₁ + 1/n₂))`,
+      example: 'Group A (n=12): x̄ₐ = 45.2, sₐ = 5.1 | Group B (n=14): x̄_b = 38.7, s_b = 6.3',
+      calc: `sₚ² = (11·26.01 + 13·39.69)/24 = 33.42
+        t = (45.2-38.7)/(5.781·√(1/12+1/14)) = 2.861
+        df = 24, p = 0.009`,
+      result: 't = 2.86, df = 24, p = 0.009 → Significant'
+    },
+    nonparam: {
+      name: 'Mann-Whitney U (Wilcoxon Rank-Sum)',
+      theory: `Tests whether one group tends to have larger values (stochastic dominance).
+        <span class="assumption orange">Robust to:</span> Outliers, non-normality, unequal variances.
+        <span class="assumption orange">Test statistic:</span> U = R₁ − n₁(n₁+1)/2`,
+      example: 'Group A: [42,48,52,39,44] | Group B: [35,38,40,32,36,37]',
+      calc: `Combined ranks: B:1,2,3,4,5,7=22; A:6,8,9,10,11=44
+        U = 44 - 5(6)/2 = 29
+        Exact p = 0.087 (two-tailed)`,
+      result: 'U = 29, p = 0.087 → Not significant',
+      score: 'a(i) = i (ranks) · U = Σ Rᵢ − n₁(n₁+1)/2'
+    },
+    rcode: `# ===== TWO-SAMPLE INDEPENDENT TESTS =====
+A <- c(42,48,52,39,44); B <- c(35,38,40,32,36,37)
+
+# Parametric: t-test
+t.test(A, B, var.equal = TRUE)  # t = 2.861, p = 0.0185
+
+# Nonparametric: Mann-Whitney
+wilcox.test(A, B, exact = TRUE)  # W = 29, p = 0.087`,
+    quiz: [
+      { q: 'What is the main assumption of the independent t-test?', options: ['Normality', 'Equal variances', 'Independence', 'All of the above'], correct: 3 },
+      { q: 'When would you use the Mann-Whitney U test instead of the t-test?', options: ['When data are normal', 'When data are ordinal', 'When sample sizes are large', 'When variances are equal'], correct: 1 },
+      { q: 'What does the U statistic in Mann-Whitney represent?', options: ['Sum of all ranks', 'Sum of ranks in one group minus expected', 'Mean difference', 'Variance ratio'], correct: 1 },
+      { q: 'What is the score function for Mann-Whitney U?', options: ['a(i) = i²', 'a(i) = i', 'a(i) = log(i)', 'a(i) = √i'], correct: 1 },
+      { q: 'Which test is more sensitive to outliers?', options: ['t-test', 'Mann-Whitney U', 'Both equally', 'Neither'], correct: 0 },
+      { q: 'What does the null hypothesis state in the Mann-Whitney test?', options: ['Means are equal', 'Distributions are identical', 'Variances are equal', 'Medians are equal'], correct: 1 },
+      { q: 'For two groups, the Mann-Whitney U is equivalent to what?', options: ['t-test', 'Wilcoxon rank-sum', 'ANOVA', 'Chi-square'], correct: 1 },
+      { q: 'What is Welch\'s t-test?', options: ['A parametric test', 'A nonparametric test', 'A rank-based test', 'A chi-square test'], correct: 0 },
+      { q: 'When should you use an exact test vs asymptotic?', options: ['When n is large', 'When n is small', 'Always', 'Never'], correct: 1 },
+      { q: 'What is a key advantage of the Mann-Whitney U?', options: ['More power with normal data', 'Robust to outliers', 'Requires equal variances', 'Assumes normality'], correct: 1 }
+    ]
+  }
+},
+{
+  id: 3,
+  icon: 'fa-link',
+  title: 'Paired Samples',
+  subtitle: 'Matched / Repeated measures',
+  badge: 'dependent',
+  data: {
+    param: {
+      name: 'Paired t-test',
+      theory: `Tests whether the mean difference between paired observations is zero.
+        <span class="assumption">Assumptions:</span> Differences are normally distributed, independent pairs.
+        <span class="assumption">Test statistic:</span> t = d̄ / (s_d/√n)`,
+      example: 'n = 12, d̄ = 3.2, s_d = 2.1',
+      calc: `t = 3.2/(2.1/√12) = 5.281
+        df = 11, p = 0.0003`,
+      result: 't = 5.28, df = 11, p < 0.001 → Highly significant'
+    },
+    nonparam: {
+      name: 'Wilcoxon Signed-Rank Test (Paired)',
+      theory: `Tests whether the median difference is zero using signed ranks.
+        <span class="assumption orange">Robust to:</span> Outliers and non-normality.
+        <span class="assumption orange">Test statistic:</span> W⁺ = sum of positive signed ranks`,
+      example: 'Differences: [3.5,2.1,4.2,1.8,3.0,2.7,3.8,1.5,2.9,3.1,2.4,3.6]',
+      calc: `Ranks: [10,4,12,2,7,5,11,1,6,8,3,9]
+        W⁺ = 78, max = 78, p = 1/4096 = 0.00024`,
+      result: 'W⁺ = 78, p < 0.001 → Highly significant',
+      score: 'a(i) = sign(dᵢ) · R(|dᵢ|) · W⁺ = Σ positive signed ranks'
+    },
+    rcode: `# ===== PAIRED SAMPLES TESTS =====
+before <- c(45,48,52,41,47,50,43,49,46,44,51,42)
+after  <- c(49,50,56,43,50,53,47,52,49,47,54,46)
+
+# Parametric: paired t-test
+t.test(after, before, paired = TRUE)  # t = 5.281, p = 0.0003
+
+# Nonparametric: Wilcoxon signed-rank
+wilcox.test(after, before, paired = TRUE)  # V = 78, p = 0.000244`,
+    quiz: [
+      { q: 'What is the key difference between independent and paired t-tests?', options: ['Paired accounts for correlation', 'Independent is more powerful', 'Paired assumes normality', 'No difference'], correct: 0 },
+      { q: 'What does the signed-rank test use instead of raw differences?', options: ['Absolute ranks with signs', 'Raw differences', 'Logarithms', 'Squares'], correct: 0 },
+      { q: 'When would you use a paired test?', options: ['Before/after study', 'Two independent groups', 'Three groups', 'Correlation'], correct: 0 },
+      { q: 'What is the score function for Wilcoxon signed-rank?', options: ['a(i)=i', 'a(i)=sign(d)·R(|d|)', 'a(i)=d²', 'a(i)=|d|'], correct: 1 },
+      { q: 'Which test is more appropriate for paired data with outliers?', options: ['Paired t-test', 'Wilcoxon signed-rank', 'Both equally', 'Neither'], correct: 1 },
+      { q: 'What is the null hypothesis for the paired t-test?', options: ['Mean difference = 0', 'Median difference = 0', 'Variance difference = 0', 'Correlation = 0'], correct: 0 },
+      { q: 'What is the null hypothesis for the Wilcoxon signed-rank test?', options: ['Mean difference = 0', 'Median difference = 0', 'Both A and B', 'Distribution is normal'], correct: 1 },
+      { q: 'For paired data, what is the degrees of freedom for the t-test?', options: ['n-1', 'n', '2n-1', 'n-2'], correct: 0 },
+      { q: 'What happens if differences are not normal?', options: ['Use t-test anyway', 'Use Wilcoxon signed-rank', 'Use chi-square', 'Use ANOVA'], correct: 1 },
+      { q: 'What is the maximum value of W⁺ for n=12?', options: ['66', '72', '78', '84'], correct: 2 }
+    ]
+  }
+},
+{
+  id: 4,
+  icon: 'fa-layer-group',
+  title: 'ANOVA (≥3 groups)',
+  subtitle: 'Multiple group comparison',
+  badge: 'k groups',
+  data: {
+    param: {
+      name: 'One-way ANOVA',
+      theory: `Tests whether means across ≥3 independent groups are equal.
+        <span class="assumption">Assumptions:</span> Normality within groups, homogeneity of variances.
+        <span class="assumption">Test statistic:</span> F = MS_between / MS_within`,
+      example: '3 groups, n=8 each: x̄₁=25.3, x̄₂=28.7, x̄₃=30.1',
+      calc: `SS_between = 97.44, MS_between = 48.72
+        SS_within = 156.8, MS_within = 7.467
+        F = 48.72/7.467 = 6.525
+        df=(2,21), p=0.006`,
+      result: 'F = 6.53, df = (2,21), p = 0.006 → Significant'
+    },
+    nonparam: {
+      name: 'Kruskal-Wallis Test',
+      theory: `Ranks all data across groups. Tests if groups come from the same distribution.
+        <span class="assumption orange">Robust to:</span> Non-normality, outliers.
+        <span class="assumption orange">Test statistic:</span> H = [12/(N(N+1))]·Σ(Rⱼ²/nⱼ) − 3(N+1)`,
+      example: 'Group rank sums: R₁=96, R₂=132, R₃=168',
+      calc: `H = [12/(24·25)]·(96²/8+132²/8+168²/8) − 75
+        = 0.02·6858 - 75 = 62.16
+        df=2, p<0.0001`,
+      result: 'H = 62.16, df = 2, p < 0.001 → Highly significant',
+      score: 'a(i) = i (ranks) · H = [12/(N(N+1))]·Σ(Rⱼ²/nⱼ) − 3(N+1)'
+    },
+    rcode: `# ===== ANOVA / KRUSKAL-WALLIS =====
+group <- rep(c("A","B","C"), each=8)
+value <- c(rnorm(8,25,3), rnorm(8,29,3), rnorm(8,31,3))
+
+# Parametric: ANOVA
+summary(aov(value ~ group))  # F = 6.53, p = 0.006
+
+# Nonparametric: Kruskal-Wallis
+kruskal.test(value ~ group)  # H = 62.16, p < 0.001`,
+    quiz: [
+      { q: 'What is the main assumption of ANOVA?', options: ['Normality', 'Homogeneity of variances', 'Independence', 'All of the above'], correct: 3 },
+      { q: 'What does the F-statistic compare?', options: ['Between vs within variance', 'Mean vs median', 'Ranks vs values', 'Raw vs transformed'], correct: 0 },
+      { q: 'What is the nonparametric alternative to ANOVA?', options: ['t-test', 'Mann-Whitney', 'Kruskal-Wallis', 'Wilcoxon signed-rank'], correct: 2 },
+      { q: 'What is the score function for Kruskal-Wallis?', options: ['a(i)=i', 'a(i)=i²', 'a(i)=log(i)', 'a(i)=√i'], correct: 0 },
+      { q: 'How many degrees of freedom for Kruskal-Wallis with 3 groups?', options: ['1', '2', '3', '4'], correct: 1 },
+      { q: 'When would you use Kruskal-Wallis instead of ANOVA?', options: ['When data are normal', 'When data are skewed', 'When variances are equal', 'When sample sizes are large'], correct: 1 },
+      { q: 'What is the null hypothesis for ANOVA?', options: ['All means are equal', 'All medians are equal', 'All variances are equal', 'All distributions are normal'], correct: 0 },
+      { q: 'What is the null hypothesis for Kruskal-Wallis?', options: ['All means are equal', 'All medians are equal', 'All distributions are identical', 'All variances are equal'], correct: 2 },
+      { q: 'Which test is more robust to outliers?', options: ['ANOVA', 'Kruskal-Wallis', 'Both equally', 'Neither'], correct: 1 },
+      { q: 'What should you do after a significant ANOVA?', options: ['Post-hoc tests', 'Stop analysis', 'Switch to Kruskal-Wallis', 'Use t-test'], correct: 0 }
+    ]
+  }
+},
+{
+  id: 5,
+  icon: 'fa-arrow-trend-up',
+  title: 'Correlation',
+  subtitle: 'Association between variables',
+  badge: 'ρ / r',
+  data: {
+    param: {
+      name: 'Pearson Correlation',
+      theory: `Measures linear association between two continuous variables.
+        <span class="assumption">Assumptions:</span> Bivariate normality, linear relationship, no outliers.
+        <span class="assumption">Test statistic:</span> r = Σ[(x−x̄)(y−ȳ)] / √[Σ(x−x̄)²·Σ(y−ȳ)²]`,
+      example: 'n = 20, r = 0.72',
+      calc: `t = 0.72·√(18/(1−0.5184)) = 4.401
+        df = 18, p = 0.0003`,
+      result: 'r = 0.72, t = 4.40, p < 0.001 → Significant'
+    },
+    nonparam: {
+      name: 'Spearman\'s Rank Correlation',
+      theory: `Measures monotonic association using ranks.
+        <span class="assumption orange">Robust to:</span> Outliers, non-normality, non-linear relationships.
+        <span class="assumption orange">Test statistic:</span> ρ = 1 − [6Σdᵢ²]/[n(n²−1)]`,
+      example: 'Same data: ρ = 0.68',
+      calc: `t = 0.68·√(18/(1−0.4624)) = 3.935
+        df = 18, p = 0.0009`,
+      result: 'ρ = 0.68, p < 0.001 → Significant',
+      score: 'a(i) = rank(Xᵢ), b(j) = rank(Yⱼ) · ρ = Pearson(r) on ranks'
+    },
+    rcode: `# ===== CORRELATION TESTS =====
+x <- rnorm(20,50,10); y <- 2*x + rnorm(20,0,15)
+
+# Parametric: Pearson
+cor.test(x, y, method="pearson")  # r = 0.72, p = 0.0003
+
+# Nonparametric: Spearman
+cor.test(x, y, method="spearman")  # rho = 0.68, p = 0.0009`,
+    quiz: [
+      { q: 'What does Pearson correlation measure?', options: ['Linear association', 'Monotonic association', 'Causation', 'Differences'], correct: 0 },
+      { q: 'What is the nonparametric alternative to Pearson?', options: ['Spearman', 'Kendall', 'Both A and B', 'Chi-square'], correct: 2 },
+      { q: 'What is the score function for Spearman?', options: ['a(i)=i', 'a(i)=rank(X)', 'a(i)=X²', 'a(i)=log(X)'], correct: 1 },
+      { q: 'When would you prefer Spearman over Pearson?', options: ['When data are normal', 'When data have outliers', 'When relationship is linear', 'When sample size is large'], correct: 1 },
+      { q: 'What is the range of Pearson r?', options: ['[-1, 1]', '[0, 1]', '[-∞, ∞]', '[0, ∞]'], correct: 0 },
+      { q: 'What is the range of Spearman ρ?', options: ['[-1, 1]', '[0, 1]', '[-∞, ∞]', '[0, ∞]'], correct: 0 },
+      { q: 'What does a correlation of 0 mean?', options: ['No linear relationship', 'No relationship at all', 'Perfect negative relationship', 'Perfect positive relationship'], correct: 0 },
+      { q: 'Which correlation is more robust to outliers?', options: ['Pearson', 'Spearman', 'Both equally', 'Neither'], correct: 1 },
+      { q: 'What is the test statistic for testing Pearson correlation?', options: ['t', 'z', 'F', 'χ²'], correct: 0 },
+      { q: 'What is a key advantage of rank-based correlations?', options: ['More power', 'Robust to outliers', 'Requires normality', 'Assumes linearity'], correct: 1 }
+    ]
+  }
+},
+{
+  id: 6,
+  icon: 'fa-chart-line',
+  title: 'Regression Slope',
+  subtitle: 'Predictor-response relationship',
+  badge: 'β₁',
+  data: {
+    param: {
+      name: 'Linear Regression (t-test on slope)',
+      theory: `Tests whether the slope β₁ = 0.
+        <span class="assumption">Assumptions:</span> Normal errors, homoscedasticity, linearity.
+        <span class="assumption">Test statistic:</span> t = b₁/SE(b₁)`,
+      example: 'n = 30, b₁ = 2.4, SE = 0.8',
+      calc: `t = 2.4/0.8 = 3.0
+        df = 28, p = 0.006
+        95% CI: [0.762, 4.038]`,
+      result: 't = 3.00, df = 28, p = 0.006 → Significant'
+    },
+    nonparam: {
+      name: 'Theil-Sen & Kendall\'s τ',
+      theory: `Theil-Sen: median of all pairwise slopes. Kendall: rank correlation.
+        <span class="assumption orange">Robust to:</span> Outliers (up to 29%), heteroscedasticity.
+        <span class="assumption orange">Test statistic:</span> β̂ = median((Yⱼ−Yᵢ)/(Xⱼ−Xᵢ))`,
+      example: 'Same data: Theil-Sen slope = 2.1, τ = 0.45',
+      calc: `z = 0.45 / √(2·65/(9·30·29)) = 3.49
+        p = 0.0005`,
+      result: 'Slope = 2.1, τ = 0.45, p < 0.001 → Significant',
+      score: 'β̂ = median((Yⱼ−Yᵢ)/(Xⱼ−Xᵢ)) · Kendall: sign((Xⱼ−Xᵢ)(Yⱼ−Yᵢ))'
+    },
+    rcode: `# ===== REGRESSION TESTS =====
+x <- 1:30 + rnorm(30,0,2); y <- 2.4*x + rnorm(30,0,15)
+
+# Parametric: Linear regression
+summary(lm(y ~ x))  # t = 3.0, p = 0.006
+
+# Nonparametric: Theil-Sen
+library(mblm)
+summary(mblm(y ~ x))  # Slope = 2.1, p < 0.001`,
+    quiz: [
+      { q: 'What does the slope in linear regression represent?', options: ['Change in Y per unit X', 'Change in X per unit Y', 'Correlation', 'Variance'], correct: 0 },
+      { q: 'What is the nonparametric alternative to regression slope?', options: ['Theil-Sen', 'Kendall', 'Both A and B', 'ANOVA'], correct: 2 },
+      { q: 'What is the score function for Theil-Sen?', options: ['a(i)=i', 'a(i)=pairwise slopes', 'a(i)=ranks', 'a(i)=signs'], correct: 1 },
+      { q: 'When would you use Theil-Sen instead of linear regression?', options: ['When data are normal', 'When outliers are present', 'When sample size is large', 'When variances are equal'], correct: 1 },
+      { q: 'What is the test statistic for testing regression slope?', options: ['t', 'z', 'F', 'χ²'], correct: 0 },
+      { q: 'What does the t-test on slope test?', options: ['β₀ = 0', 'β₁ = 0', 'β₁ = 1', 'All coefficients = 0'], correct: 1 },
+      { q: 'What is Kendall\'s τ measuring?', options: ['Linear correlation', 'Rank concordance', 'Mean difference', 'Variance ratio'], correct: 1 },
+      { q: 'What percentage of outliers can Theil-Sen handle?', options: ['10%', '29%', '50%', '100%'], correct: 1 },
+      { q: 'What is the advantage of robust regression methods?', options: ['More power', 'Less affected by outliers', 'Requires normality', 'Assumes linearity'], correct: 1 },
+      { q: 'What should you check before using linear regression?', options: ['Normality of residuals', 'Homoscedasticity', 'Linearity', 'All of the above'], correct: 3 }
+    ]
+  }
+},
+{
+  id: 7,
+  icon: 'fa-clock',
+  title: 'Kaplan-Meier Survival',
+  subtitle: 'Time-to-event analysis',
+  badge: 'survival',
+  iconClass: 'orange-icon',
+  badgeClass: 'orange-badge',
+  data: {
+    param: {
+      name: 'Exponential / Weibull Parametric Survival',
+      theory: `Models survival times using parametric distributions (Exponential, Weibull, Log-normal).
+        <span class="assumption">Assumptions:</span> Survival times follow a specific distribution.
+        <span class="assumption">Test statistic:</span> Likelihood ratio test for comparing groups.
+        <span class="assumption">Sensitive to:</span> Distributional misspecification, outliers.
+        <span class="assumption">Interpretation:</span> Hazard ratio = exp(β) from Cox or parametric models.`,
+      example: '10 patients: times [6, 8, 10+, 12, 15, 18, 20+, 22, 25, 30+] months',
+      calc: `Exponential model: λ̂ = events / total time = 7 / (6+8+12+15+18+22+25+10+20+30)
+        = 7 / 166 = 0.0422 events/month
+        Median survival = ln(2)/λ = 0.693/0.0422 = 16.4 months
+        Log-likelihood = -n·ln(λ) + λ·Σtᵢ = -7·ln(0.0422) + 0.0422·166 = 22.3 - 7.0 = 15.3
+        AIC = -2·LL + 2·k = -30.6 + 2 = -28.6`,
+      result: 'λ = 0.0422, Median = 16.4 months, AIC = -28.6'
+    },
+    nonparam: {
+      name: 'Kaplan-Meier (Product-Limit) Estimator',
+      theory: `Nonparametric estimator of survival function S(t) = P(T > t).
+        <span class="assumption orange">Assumptions:</span> Independent censoring, no competing risks.
+        <span class="assumption orange">Robust to:</span> No distributional assumptions.
+        <span class="assumption orange">Test statistic:</span> Ŝ(t) = Πᵢ (1 - dᵢ/nᵢ) for ordered failure times.
+        <span class="assumption orange">Comparison:</span> Log-rank test for group differences.`,
+      example: 'Same data: times [6, 8, 10+, 12, 15, 18, 20+, 22, 25, 30+]',
+      calc: `Ordered event times: 6, 8, 12, 15, 18, 22, 25
+        t=6:  S = 1 - 1/10 = 0.900
+        t=8:  S = 0.900 × (1 - 1/9) = 0.800
+        t=12: S = 0.800 × (1 - 1/8) = 0.700
+        t=15: S = 0.700 × (1 - 1/7) = 0.600
+        t=18: S = 0.600 × (1 - 1/6) = 0.500
+        t=22: S = 0.500 × (1 - 1/5) = 0.400
+        t=25: S = 0.400 × (1 - 1/4) = 0.300
+        Median survival = 18 months (where S(t) = 0.5)`,
+      result: 'Median survival = 18 months, 95% CI: [12, 25] months',
+      score: 'Ŝ(t) = Πᵢ (1 − dᵢ/nᵢ) · Log-rank: Σ (Oᵢ − Eᵢ)²/Vᵢ'
+    },
+    rcode: `# ===== KAPLAN-MEIER SURVIVAL ANALYSIS =====
+library(survival)
+
+# Data: time and censoring indicator (1=event, 0=censored)
+time <- c(6, 8, 10, 12, 15, 18, 20, 22, 25, 30)
+status <- c(1, 1, 0, 1, 1, 1, 0, 1, 1, 0)  # 1=event, 0=censored
+
+# Parametric: Exponential survival model
+exp_model <- survreg(Surv(time, status) ~ 1, dist = "exponential")
+summary(exp_model)
+# Output: λ = 0.0422, Median = 16.4 months
+
+# Nonparametric: Kaplan-Meier
+km_fit <- survfit(Surv(time, status) ~ 1)
+summary(km_fit)
+# Output: Median = 18 months
+
+# Plot Kaplan-Meier curve
+plot(km_fit, xlab = "Time (months)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve")
+
+# Add confidence intervals
+lines(km_fit, conf.int = TRUE, col = "blue")
+
+# Log-rank test for group comparison (if groups exist)
+# survdiff(Surv(time, status) ~ group)`,
+    quiz: [
+      { q: 'What is the Kaplan-Meier estimator used for?', options: ['Comparing means', 'Estimating survival probabilities', 'Testing normality', 'Measuring correlation'], correct: 1 },
+      { q: 'What does the score function Ŝ(t) = Πᵢ (1 - dᵢ/nᵢ) represent?', options: ['Hazard function', 'Survival function', 'Cumulative incidence', 'Probability density'], correct: 1 },
+      { q: 'What is a key advantage of Kaplan-Meier over parametric survival models?', options: ['More power', 'No distributional assumptions', 'Requires less data', 'Easier to interpret'], correct: 1 },
+      { q: 'What is censoring in survival analysis?', options: ['Removing outliers', 'Incomplete follow-up', 'Adding noise', 'Transforming data'], correct: 1 },
+      { q: 'What does the log-rank test compare?', options: ['Means', 'Variances', 'Survival curves', 'Correlations'], correct: 2 },
+      { q: 'What is the median survival time?', options: ['Time when 50% have died', 'Mean survival time', 'Maximum survival time', 'Minimum survival time'], correct: 0 },
+      { q: 'What assumption does Kaplan-Meier require?', options: ['Normality', 'Independent censoring', 'Equal variances', 'Linearity'], correct: 1 },
+      { q: 'What is a hazard ratio?', options: ['Ratio of means', 'Ratio of hazards between groups', 'Ratio of variances', 'Ratio of correlations'], correct: 1 },
+      { q: 'When would you use a parametric survival model?', options: ['When data are skewed', 'When distribution is known', 'When outliers are present', 'When sample size is small'], correct: 1 },
+      { q: 'What is the score function for the log-rank test?', options: ['a(i)=i', 'a(i)=Oᵢ-Eᵢ', 'a(i)=sign(d)', 'a(i)=rank(t)'], correct: 1 }
+    ]
+  }
+},
+{
+  id: 8,
+  icon: 'fa-sync-alt',
+  title: 'Bootstrapping',
+  subtitle: 'Resampling for inference',
+  badge: 'resampling',
+  iconClass: 'orange-icon',
+  badgeClass: 'orange-badge',
+  data: {
+    param: {
+      name: 'Classical (Parametric) Inference',
+      theory: `Uses theoretical distributions (t, F, χ²) to construct confidence intervals and p-values.
+        <span class="assumption">Assumptions:</span> Data follow a specific distribution (e.g., normal).
+        <span class="assumption">Test statistic:</span> Relies on parametric formulas.
+        <span class="assumption">Sensitive to:</span> Violations of distributional assumptions, small samples.`,
+      example: 'Sample mean x̄ = 5.2, s = 1.8, n = 20',
+      calc: `95% CI = x̄ ± t₀.₀₂₅·(s/√n)
+        = 5.2 ± 2.093·(1.8/√20)
+        = 5.2 ± 2.093·0.402
+        = 5.2 ± 0.842
+        CI = [4.358, 6.042]`,
+      result: '95% CI: [4.36, 6.04] assuming normality'
+    },
+    nonparam: {
+      name: 'Bootstrap (Nonparametric Resampling)',
+      theory: `Resamples data with replacement to estimate sampling distribution.
+        <span class="assumption orange">Assumptions:</span> Sample is representative of the population.
+        <span class="assumption orange">Robust to:</span> No distributional assumptions.
+        <span class="assumption orange">Test statistic:</span> B replicates (typically 1000-10000) of the statistic of interest.
+        <span class="assumption orange">Score function:</span> Each bootstrap sample is a score transformation.`,
+      example: 'Same data: n=20, x̄=5.2, s=1.8, B=1000 bootstrap samples',
+      calc: `For each bootstrap sample b=1..1000:
+        1. Sample n=20 with replacement from original data
+        2. Calculate x̄*ᵦ
+      After B=1000 replicates:
+        Standard error = SD(x̄*₁, ..., x̄*₁₀₀₀)
+        Bootstrapped 95% CI = Percentile method:
+        Lower = 2.5th percentile of x̄* distribution
+        Upper = 97.5th percentile of x̄* distribution
+        Example: SE* = 0.38, CI* = [4.45, 6.01]`,
+      result: 'Bootstrap 95% CI: [4.45, 6.01] (percentile method)',
+      score: 'Bootstrap score: Each resample = score transformation. θ̂* = θ̂(data*) · SE = SD(θ̂*)'
+    },
+    rcode: `# ===== BOOTSTRAPPING =====
+# Data
+data <- rnorm(20, 5.2, 1.8)
+B <- 1000
+
+# 1. Parametric CI (assuming normality)
+t.test(data)$conf.int  # CI: [4.36, 6.04]
+
+# 2. Nonparametric Bootstrap
+boot_means <- replicate(B, {
+  boot_sample <- sample(data, replace = TRUE)
+  mean(boot_sample)
+})
+
+# Bootstrap standard error
+se_boot <- sd(boot_means)  # ≈ 0.38
+
+# Bootstrap percentile CI
+ci_boot <- quantile(boot_means, c(0.025, 0.975))  # [4.45, 6.01]
+
+# Bootstrap BCa CI (bias-corrected accelerated)
+library(boot)
+boot_obj <- boot(data, function(x, i) mean(x[i]), R = B)
+boot.ci(boot_obj, type = "bca")
+
+# Visualize bootstrap distribution
+hist(boot_means, breaks = 30, main = "Bootstrap Distribution",
+     xlab = "Bootstrap Means", col = "#4a8fd8")
+abline(v = ci_boot, col = "red", lwd = 2, lty = 2)
+abline(v = mean(data), col = "blue", lwd = 2)
+
+# Bootstrap hypothesis test (e.g., test if mean > 5)
+boot_test <- boot(data, function(x, i) mean(x[i]) - 5, R = B)
+p_boot <- mean(boot_test$t > 0)  # proportion of bootstrap stats > 0`,
+    quiz: [
+      { q: 'What is the bootstrap method used for?', options: ['Estimating distributions without assumptions', 'Testing normality', 'Measuring correlation', 'Comparing variances'], correct: 0 },
+      { q: 'What is the key difference between parametric and bootstrap inference?', options: ['Bootstrap assumes normality', 'Bootstrap makes no distributional assumptions', 'Bootstrap requires larger samples', 'Bootstrap is less accurate'], correct: 1 },
+      { q: 'What does B represent in bootstrapping?', options: ['Sample size', 'Number of bootstrap replicates', 'Number of variables', 'Significance level'], correct: 1 },
+      { q: 'What is the score function in bootstrapping?', options: ['a(i)=i', 'Each resample is a score transformation', 'a(i)=rank(i)', 'a(i)=sign(i)'], correct: 1 },
+      { q: 'What is the percentile method in bootstrapping?', options: ['Using percentiles of bootstrap distribution as CI', 'Using parametric formula', 'Using t-distribution', 'Using F-distribution'], correct: 0 },
+      { q: 'What is a key advantage of bootstrapping?', options: ['More power', 'No distributional assumptions', 'Requires less data', 'Easier to calculate'], correct: 1 },
+      { q: 'When would you use bootstrapping?', options: ['When data are normal', 'When distribution is unknown', 'When sample is large', 'When variances are equal'], correct: 1 },
+      { q: 'What is the BCa bootstrap?', options: ['A parametric method', 'Bias-corrected accelerated bootstrap', 'A type of t-test', 'A regression method'], correct: 1 },
+      { q: 'What is the standard error in bootstrapping?', options: ['SD of bootstrap replicates', 'SD of original data', 'Mean of bootstrap replicates', 'Variance of original data'], correct: 0 },
+      { q: 'Which is more robust to violations of assumptions?', options: ['Parametric methods', 'Bootstrap methods', 'Both equally', 'Neither'], correct: 1 }
+    ]
+  }
+}
+];
+
+// ===== RENDER TOPICS =====
+const topicGrid = document.getElementById('topicGrid');
+topics.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'topic-card';
+  const iconClass = t.iconClass || '';
+  const badgeClass = t.badgeClass || '';
+  card.innerHTML = `
+    <div class="topic-icon ${iconClass}"><i class="fas ${t.icon}"></i></div>
+    <div class="topic-info">
+      <h3>${t.title}</h3>
+      <p>${t.subtitle}</p>
+    </div>
+    <span class="topic-badge ${badgeClass}">${t.badge}</span>
+  `;
+  card.addEventListener('click', () => openModal(t));
+  topicGrid.appendChild(card);
+});
+
+// ===== SCORE INTRODUCTION TOGGLE =====
+const introToggle = document.getElementById('introToggle');
+const introContent = document.getElementById('introContent');
+const scoreIntro = document.getElementById('scoreIntro');
+
+scoreIntro.addEventListener('click', () => {
+  introContent.classList.toggle('active');
+  introToggle.style.transform = introContent.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+});
+
+// ===== MODAL =====
+const modalOverlay = document.getElementById('modalOverlay');
+const modalBody = document.getElementById('modalBody');
+const modalTitle = document.getElementById('modalTitle');
+
+function openModal(topic) {
+  const d = topic.data;
+  const quiz = d.quiz || [];
+  
+  modalTitle.innerHTML = `<i class="fas ${topic.icon}"></i> ${topic.title} · ${topic.subtitle}`;
+
+  let quizHTML = '';
+  if (quiz.length > 0) {
+    quizHTML = `
+      <div class="quiz-container" id="quizContainer">
+        ${quiz.map((q, idx) => `
+          <div class="quiz-question" data-q="${idx}">
+            <div class="q-number">Question ${idx + 1} of ${quiz.length}</div>
+            <div class="q-text">${q.q}</div>
+            <div class="q-options">
+              ${q.options.map((opt, oi) => `
+                <label>
+                  <input type="radio" name="q${idx}" value="${oi}">
+                  ${String.fromCharCode(65 + oi)}. ${opt}
+                </label>
+              `).join('')}
+            </div>
+            <div class="q-feedback" id="feedback${idx}"></div>
+          </div>
+        `).join('')}
+        <button class="quiz-submit" id="quizSubmit"><i class="fas fa-paper-plane"></i> Submit Quiz</button>
+        <div class="quiz-score" id="quizScore"></div>
+      </div>
+    `;
+  }
+
+  modalBody.innerHTML = `
+    <div class="modal-tabs">
+      <button class="tab-btn active" data-tab="theory"><i class="fas fa-book"></i> Theory & Examples</button>
+      <button class="tab-btn" data-tab="code"><i class="fab fa-r-project"></i> R Code</button>
+      <button class="tab-btn" data-tab="quiz"><i class="fas fa-question-circle"></i> Quiz <span class="badge-tab">${quiz.length} questions</span></button>
+    </div>
+
+    <!-- TAB 1: Theory -->
+    <div class="tab-content active" id="tab-theory">
+      <div class="modal-section">
+        <div class="section-title"><i class="fas fa-question-circle"></i> Why Nonparametric?</div>
+        <div style="background:#f0f6fc;padding:1rem 1.2rem;border-radius:12px;font-size:0.9rem;line-height:1.7;border-left:4px solid #3a7bd5;">
+          <strong>Parametric methods</strong> assume specific distributions (e.g., normality) and are sensitive to outliers.
+          <strong>Nonparametric methods</strong> make fewer assumptions, use ranks/signs/resampling, and are robust to outliers and non-normality.
+          They are essential when data are skewed, ordinal, when sample sizes are small, or when the true distribution is unknown.
+          <br><br>
+          <strong>Score functions</strong> (ranks, signs, pairwise comparisons, survival probabilities, resampling) are the mathematical engine that makes nonparametric tests distribution-free.
+        </div>
+      </div>
+
+      <div class="comparison-modal">
+        <!-- Parametric -->
+        <div class="method-detail param-detail">
+          <h4><i class="fas fa-arrow-right icon-param" style="color:#2a6bb0;"></i> ${d.param.name}</h4>
+          <div class="theory-text">${d.param.theory}</div>
+          <div class="calc-block">
+            <div class="calc-label"><i class="fas fa-table"></i> Data & Example</div>
+            <div style="font-weight:500;margin-bottom:0.2rem;">${d.param.example}</div>
+            <div class="calc-label" style="margin-top:0.5rem;"><i class="fas fa-calculator"></i> Calculation</div>
+            <div class="calc-steps">${d.param.calc}</div>
+            <div class="calc-result">${d.param.result}</div>
+          </div>
+        </div>
+
+        <!-- Nonparametric -->
+        <div class="method-detail nonparam-detail">
+          <h4><i class="fas fa-arrow-right icon-nonparam" style="color:#c0702e;"></i> ${d.nonparam.name}</h4>
+          <div class="theory-text">${d.nonparam.theory}</div>
+          <div class="calc-block non-calc">
+            <div class="calc-label"><i class="fas fa-table"></i> Data & Example</div>
+            <div style="font-weight:500;margin-bottom:0.2rem;">${d.nonparam.example}</div>
+            <div class="calc-label" style="margin-top:0.5rem;"><i class="fas fa-calculator"></i> Calculation</div>
+            <div class="calc-steps">${d.nonparam.calc}</div>
+            <div class="calc-result orange-result">${d.nonparam.result}</div>
+          </div>
+          <div class="score-badge-detail">
+            <i class="fas fa-code"></i>
+            <span style="font-weight:600;">Score function:</span>
+            <span style="background:rgba(255,255,255,0.5);padding:0.05rem 0.6rem;border-radius:20px;">${d.nonparam.score}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: R Code -->
+    <div class="tab-content" id="tab-code">
+      <div class="modal-section">
+        <div class="section-title"><i class="fab fa-r-project" style="color:#276DC3;"></i> R Code Implementation</div>
+        <div class="code-block">
+          <code>${d.rcode}</code>
+        </div>
+        <div style="margin-top:0.8rem;font-size:0.8rem;color:#5a7a9a;background:#f0f4f8;padding:0.5rem 1rem;border-radius:8px;">
+          <i class="fas fa-info-circle"></i> Copy and run this code in R to see the results yourself.
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Quiz -->
+    <div class="tab-content" id="tab-quiz">
+      <div class="modal-section">
+        <div class="section-title"><i class="fas fa-question-circle"></i> Test Your Knowledge</div>
+        <p style="font-size:0.9rem;color:#5a7a9a;margin-bottom:1rem;">Answer all questions below. After submission, you'll see which answers were correct.</p>
+        ${quizHTML || '<p style="color:#5a7a9a;">No quiz available for this topic.</p>'}
+      </div>
+    </div>
+  `;
+
+  modalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const tab = this.dataset.tab;
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(`tab-${tab}`).classList.add('active');
+    });
+  });
+
+  // Quiz logic
+  if (quiz.length > 0) {
+    const submitBtn = document.getElementById('quizSubmit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        let correct = 0;
+        let allAnswered = true;
+        
+        quiz.forEach((q, idx) => {
+          const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+          const feedback = document.getElementById(`feedback${idx}`);
+          
+          if (selected) {
+            const answer = parseInt(selected.value);
+            if (answer === q.correct) {
+              correct++;
+              feedback.className = 'q-feedback show correct';
+              feedback.innerHTML = '✅ Correct!';
+            } else {
+              feedback.className = 'q-feedback show incorrect';
+              feedback.innerHTML = `❌ Incorrect. The correct answer is ${String.fromCharCode(65 + q.correct)}: ${q.options[q.correct]}`;
+            }
+          } else {
+            allAnswered = false;
+            feedback.className = 'q-feedback show incorrect';
+            feedback.innerHTML = '⚠️ Please select an answer.';
+          }
+        });
+
+        const scoreDiv = document.getElementById('quizScore');
+        if (allAnswered) {
+          const score = (correct / quiz.length * 100);
+          scoreDiv.className = 'quiz-score show';
+          scoreDiv.innerHTML = `
+            <i class="fas fa-star" style="color:#f5b342;"></i>
+            You scored ${correct}/${quiz.length} (${score}%)
+            ${score >= 80 ? ' 🎉 Excellent!' : score >= 60 ? ' 👍 Good job!' : ' 📚 Review the material above.'}
+          `;
+          
+          // Submit to Google Sheets
+          submitToGoogleSheets(topic.title, correct, quiz.length, score);
+        } else {
+          scoreDiv.className = 'quiz-score show';
+          scoreDiv.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#e74c3c;"></i> Please answer all questions before submitting.';
+        }
+      });
+    }
+  }
+}
+
+// ===== GOOGLE SHEETS SUBMISSION =====
+function submitToGoogleSheets(topic, correct, total, score) {
+  const scriptURL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+  
+  const data = {
+    timestamp: new Date().toISOString(),
+    topic: topic,
+    correct: correct,
+    total: total,
+    score: score + '%',
+    userAgent: navigator.userAgent
+  };
+
+  fetch(scriptURL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(() => console.log('Quiz submitted'))
+  .catch(() => {
+    // Fallback: store locally
+    const submissions = JSON.parse(localStorage.getItem('quizSubmissions') || '[]');
+    submissions.push({ ...data, local: true });
+    localStorage.setItem('quizSubmissions', JSON.stringify(submissions));
+  });
+}
+
+// ===== CLOSE MODAL =====
+function closeModal() {
+  modalOverlay.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+
+</body>
+</html>
